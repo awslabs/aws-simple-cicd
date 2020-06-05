@@ -1,0 +1,35 @@
+{
+  "naming": {
+    "company": "acme",
+    "dept": "markets",
+    "project":  "roadrunner"
+  },
+  "deployment": {
+    "region": "ca-central-1"
+  },
+  "accountIds": {
+    "cicd": "628898779211",
+    "dev": "850854751783",
+    "test": "",
+    "prod": ""
+  },
+  "teamOne": [
+    {
+      "owner": "acme",
+      "pipelineName": "rocket-powered-skates",
+      "ccRepoName": "rocket-powered-skates",
+      "branch": "master",
+      "type": "CodeCommit",
+      "cron": ""
+    }
+  ],
+  "sharedResources": {
+    "cicdBucket": "cicd"
+  },
+  "defaultRegions": {
+    "cicd": "ca-central-1",
+    "dev": "ca-central-1",
+    "test": "ca-central-1",
+    "prod": "ca-central-1"
+  }
+}
