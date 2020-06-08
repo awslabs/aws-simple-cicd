@@ -27,7 +27,7 @@ The number of stages and their function is fully customizable e.g. adding a stag
 
 ![Architecture](./architecture.png "CI/CD Architecture")
 
-### AWS Services
+### AWS services
 
 - AWS CodeCommit (or any source control providor supported by CodePipeline)
 - AWS CodePipeline
@@ -39,13 +39,13 @@ The number of stages and their function is fully customizable e.g. adding a stag
 - AWS Systems Manager: Parameter Store
 - AWS CloudFormation
 
-## Getting Started
+## Getting started
 
 - [Pre-Requisites](docs/prereq.md)
 - [Administrator Guide](docs/admin.md)
 - [Developer Guide](docs/developer.md)
 
-## Shout-outs
+## See also
 
 - [fourTheorem SLIC Starter](https://github.com/fourTheorem/slic-starter)
 - [Semantic Versioning](https://semver.org)
