@@ -25,6 +25,8 @@ This is the pipeline that will be generated for each repository. The build and d
 
 The number of stages and their function is fully customizable e.g. adding a stage for security/vulnerability scanning, adding a stage for executing test cases etc.
 
+![Architecture](./architecture.png "CI/CD Architecture")
+
 ### AWS Services
 
 - AWS CodeCommit (or any source control providor supported by CodePipeline)
@@ -37,10 +39,13 @@ The number of stages and their function is fully customizable e.g. adding a stag
 - AWS Systems Manager: Parameter Store
 - AWS CloudFormation
 
-![Architecture](./architecture.png "CI/CD Architecture")
-
 ## Getting Started
 
 - [Pre-Requisites](docs/prereq.md)
 - [Administrator Guide](docs/admin.md)
 - [Developer Guide](docs/developer.md)
+
+## Shout-outs
+
+- [fourTheorem SLIC Starter](https://github.com/fourTheorem/slic-starter)
+- [Semantic Versioning](https://semver.org)
