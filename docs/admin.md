@@ -4,11 +4,11 @@ These instructions are for the users who will be deploying and maintaining the p
 
 Create a [project-config.json](../project-config.sample.json) file in the root of the Simple-CICD project. There is a sample ***project-config.sample.json*** file provided
 
-- [Configure Accounts](#configure-accounts)
-- [Configure Naming](#configure-naming)
-- [Configure Pipelines](#configure-pipelines)
-- [Grouping Pipelines](#grouping-pipelines)
-- [Deploying Pipelines](#deploy-pipelines)
+1. [Configure Accounts](#configure-accounts)
+2. [Configure Naming](#configure-naming)
+3. [Configure Pipelines](#configure-pipelines)
+4. [Grouping Pipelines](#grouping-pipelines)
+5. [Deploying Pipelines](#deploy-pipelines)
 
 ## Configure Accounts
 
@@ -48,7 +48,7 @@ aws cloudformation deploy --template-file cross-account/deployment-role.yaml --s
 
 The name of the role in the sample provided is ***deployment-role***. Once the IAM role has been deployed, the Simple-CICD project needs to be configured to use it.
 
-Update ***ROLE_NAME*** in [assume-cross-account-role.env](../scripts/assume-cross-account-role.env). This file will need to be placed in the ***scripts/*** folder of every project. The pipeline executes the commands in this file in order to assume the deployment role in the target account before running the deployment script.
+If you modifed the cross account IAM role name then Update ***ROLE_NAME*** in [assume-cross-account-role.env](../scripts/assume-cross-account-role.env). This file will need to be placed in the ***scripts/*** folder of every project. The pipeline executes the commands in this file in order to assume the deployment role in the target account before running the deployment script.
 
 ## Configure Naming
 

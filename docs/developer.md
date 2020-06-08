@@ -30,14 +30,14 @@ Create a directory called scripts in the root of the application source code rep
 
     ```bash
     ROLE_NAME=role/deployment-role
-    SESSION_NAME=${STAGE}-Deploy
-    echo Assuming role ${ROLE_NAME} in account ${CROSS_ACCOUNT_ID} with session name ${SESSION_NAME}
+    SESSION_NAME=${TARGET_ENV}-Deploy
+    echo Assuming role ${ROLE_NAME} in account ${TARGET_ACCOUNT_ID} with session name ${SESSION_NAME}
 
-    if [[ "${CROSS_ACCOUNT_ID}" == "" ]]; then
-      >&2 echo Error: CROSS_ACCOUNT_ID must be set. Assuming cross account role has failed!
+    if [[ "${TARGET_ACCOUNT_ID}" == "" ]]; then
+      >&2 echo Error: TARGET_ACCOUNT_ID must be set. Assuming cross account role has failed!
       exit 1
     else
-      IMPERSONATION=$(aws sts assume-role --role-arn "arn:aws:iam::${CROSS_ACCOUNT_ID}:${ROLE_NAME}" --role-session-name ${SESSION_NAME} --output text | tail -1)
+      IMPERSONATION=$(aws sts assume-role --role-arn "arn:aws:iam::${TARGET_ACCOUNT_ID}:${ROLE_NAME}" --role-session-name ${SESSION_NAME} --output text | tail -1)
       export AWS_ACCESS_KEY_ID=$(echo $IMPERSONATION | awk '{print $2}')
       export AWS_SECRET_ACCESS_KEY=$(echo $IMPERSONATION | awk '{print $4}')
       export AWS_SESSION_TOKEN=$(echo $IMPERSONATION | awk '{print $5}')
@@ -104,7 +104,7 @@ Create a directory called scripts in the root of the application source code rep
       cdk deploy --require-approval never
     ```
 
-    Sample deployment script which executes an AWS CloudFormation script. In this sample, the *STAGE* environment variable will be automatically set to the target environment (dev, test, prod)
+    Sample deployment script which executes an AWS CloudFormation script. In this sample, the *TARGET_ENV* environment variable will be automatically set to the target environment (dev, test, prod)
 
     ```bash
       #! /bin/bash
@@ -113,5 +113,5 @@ Create a directory called scripts in the root of the application source code rep
       set -u
       set -o pipefail
 
-      aws cloudformation deploy --template-file cf_usecasecatalog.yaml --stack-name sample-cfn-stack --no-fail-on-empty-changeset --capabilities CAPABILITY_NAMED_IAM --parameter-overrides Environment=${STAGE}
+      aws cloudformation deploy --template-file cf_usecasecatalog.yaml --stack-name sample-cfn-stack --no-fail-on-empty-changeset --capabilities CAPABILITY_NAMED_IAM --parameter-overrides Environment=${TARGET_ENV}
     ```

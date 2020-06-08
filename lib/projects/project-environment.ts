@@ -37,15 +37,15 @@ export function projectEnvironmentVars(props: {
   const siteVars: any = {}
 
   return {
-    STAGE: {
+    TARGET_ENV: {
       type: BuildEnvironmentVariableType.PLAINTEXT,
       value: props.stageName
     },
-    CROSS_ACCOUNT_ID: {
+    TARGET_ACCOUNT_ID: {
       type: BuildEnvironmentVariableType.PLAINTEXT,
       value: `${config.accountIds[props.stageName]}`
     },
-    MODULE_NAME: {
+    REPO_NAME: {
       type: BuildEnvironmentVariableType.PLAINTEXT,
       value: props.repoName
     },
