@@ -5,6 +5,7 @@ Create a [project-config.json](../project-config.sample.json) file in the root o
 - [Configure Accounts](#account-definition)
 - [Configure Naming](#naming-definition)
 - [Configure Pipelines](#pipeline-definition)
+- [Grouping Pipelines](#grouping-pipelines)
 - [Deploy Pipelines](#build-and-deploy-the-project)
 
 ## Account definition
@@ -103,6 +104,40 @@ The following sample will generate a pipeline called ***acme-markets-roadrunner-
 }
 ```
 
+## Grouping Pipelines
+
+AWS CloudFormation has a limit of 200 resources per stack. To bypass this limitation we recommend grouping pipelines together and generating a separate stack for each group. In the [sample](../project-config.sample.json) the pipelines are grouped by team, Team One and Team Two.
+
+### Adding a new group
+
+1. Create a new array in project-config.json. See teamOne or teamTwo for an example.
+
+    ```bash
+    "teamThree": [
+      {
+        "pipelineName": "rocket-powered-skates",
+        "ccRepoName": "rocket-powered-skates",
+        "branch": "master",
+        "type": "CodeCommit",
+        "cron": ""
+      }
+    ]
+    ```
+
+1. Update [config.ts](../config/config.ts) and update the ProjectConfig interface.
+
+    ```bash
+      teamThree:  Array<ProjectRepo>
+    ```
+
+1. Update [cicd.ts](../bin/cicd.ts) to generate a new stack for Team Three.
+
+    ```bash
+      new CicdStack(app, 'AWS-Simple-CICD-TeamThree', { prefix, ssmRoot, repos: config.teamThree})
+    ```  
+
+Group your pipelines based on your needs. Grouping by teams is just provided as an example.
+
 ## Build and deploy the project
 
 If you have not installed AWS CDK already please refer to the [pre-requisites](./prereq.md)
@@ -114,5 +149,5 @@ npm run build
 
 cdk bootstrap --profile <shared services account profile>
 
-cdk deploy --profile <shared services account profile>
+cdk deploy '*' --profile <shared services account profile>
 ```
