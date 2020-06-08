@@ -1,6 +1,8 @@
 # Developer Instructions
 
-The AWS Simple CICD project provides very prescriptive pipelines. As the developer you are responsible for maintaining a scriptsfolder with three files in the root of your code repository.
+These instructions are for the application developers who will be using the CI/CD platform to deliver their applications.
+
+As the developer you are responsible for maintaining a scripts folder with three files in the root of your code repository.
 
 ```text
 scripts/assume-cross-account-role.env
@@ -12,7 +14,7 @@ scripts/deploy.sh
 
 The build and deploy scripts must contain all the commands required to build your application, including the installation of any dependencies. The pipeline will execute the build script once. The deploy script will be executed once per target environment i.e dev, test and prod.
 
-This enforces the *"build once, deploy many"* paradigm and also ensures that your deployment script is target environment agnostic.
+This enforces the *"build once, deploy many"* paradigm and also ensures that your deployment script is environment agnostic.
 
 Finally, you as the developer are now in complete control of how your applications gets deployed to your AWS accounts.
 
@@ -21,6 +23,8 @@ Finally, you as the developer are now in complete control of how your applicatio
 Create a directory called scripts in the root of the application source code repository called ***scripts*** with 3 files:
 
 1. assume-cross-account-role.env
+
+    This file is available [here](../scripts/assume-cross-account-role.env) and maintained by the administrators of the platform.
 
     Do not modify this file without consulting the administrator/devops team.
 

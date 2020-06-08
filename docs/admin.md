@@ -1,14 +1,16 @@
 # Administrator Guide
 
+These instructions are for the users who will be deploying and maintaining the platform.
+
 Create a [project-config.json](../project-config.sample.json) file in the root of the Simple-CICD project. There is a sample ***project-config.sample.json*** file provided
 
-- [Configure Accounts](#account-definition)
-- [Configure Naming](#naming-definition)
-- [Configure Pipelines](#pipeline-definition)
+- [Configure Accounts](#configure-accounts)
+- [Configure Naming](#configure-naming)
+- [Configure Pipelines](#configure-pipelines)
 - [Grouping Pipelines](#grouping-pipelines)
-- [Deploy Pipelines](#build-and-deploy-the-project)
+- [Deploying Pipelines](#deploy-pipelines)
 
-## Account definition
+## Configure Accounts
 
 Add the account ids of the target accounts to the project-config.json file. The account Id will be passed to the deployment stage as an environment variable, thus making it available to your deployment script for the entire duration of the stage.
 
@@ -48,7 +50,7 @@ The name of the role in the sample provided is ***deployment-role***. Once the I
 
 Update ***ROLE_NAME*** in [assume-cross-account-role.env](../scripts/assume-cross-account-role.env). This file will need to be placed in the ***scripts/*** folder of every project. The pipeline executes the commands in this file in order to assume the deployment role in the target account before running the deployment script.
 
-## Naming definition
+## Configure Naming
 
 All the AWS resources provisioned by this project will follow a standard naming convention. This can be configured as desired.
 
@@ -72,7 +74,7 @@ This will generate resources prefixed with ***acme-markets-roadrunner***
 }
 ```
 
-## Pipeline definition
+## Configure Pipelines
 
 - The pipeline name and branch are concatenated to create a unique pipeline per branch.
 - The sample provides a single TriggerType - CodeCommit. This can be extended to add Github, BitBucket etc.
@@ -138,7 +140,7 @@ AWS CloudFormation has a limit of 200 resources per stack. To bypass this limita
 
 Group your pipelines based on your needs. Grouping by teams is just provided as an example.
 
-## Build and deploy the project
+## Deploying Pipelines
 
 If you have not installed AWS CDK already please refer to the [pre-requisites](./prereq.md)
 
