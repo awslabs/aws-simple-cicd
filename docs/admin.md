@@ -9,7 +9,7 @@ Create a [project-config.json](../project-config.sample.json) file in the root o
 
 ## Account definition
 
-Add the account Ids of the target accounts to the project-config.json file. The account Id will be passed to the deployment stage as an environment variable, thus making it available to your deployment script for the entire duration of the stage.
+Add the account ids of the target accounts to the project-config.json file. The account Id will be passed to the deployment stage as an environment variable, thus making it available to your deployment script for the entire duration of the stage.
 
 ```text
 {
