@@ -15,7 +15,6 @@
   },
   "teamOne": [
     {
-      "owner": "acme",
       "pipelineName": "rocket-powered-skates",
       "ccRepoName": "rocket-powered-skates",
       "branch": "master",
@@ -25,7 +24,6 @@
   ],
   "teamTwo": [
     {
-      "owner": "acme",
       "pipelineName": "bird-seed", 
       "ccRepoName": "bird-seed", 
       "branch": "master",

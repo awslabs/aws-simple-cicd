@@ -34,13 +34,12 @@ export enum StageName {
 }
 
 export type ProjectRepo = {
-    owner: string,
-    pipelineName: string,
-    ccRepoName: string,
-    branch: string,
-    type: TriggerType,
-    cron: string
-  }
+  pipelineName: string,
+  ccRepoName: string,
+  branch: string,
+  type: TriggerType,
+  cron: string
+}
 
 export interface ProjectConfig {
   naming: {
@@ -52,12 +51,10 @@ export interface ProjectConfig {
     region: string
   },
   accountIds: {
-    cicd: string,
     dev: string,
     test: string,
     prod: string
   },
-  teamOne:  Array<ProjectRepo>,
   sharedResources: {
     cicdBucket: string
   },
@@ -67,7 +64,7 @@ export interface ProjectConfig {
     test: string,
     prod: string
   },
-  //stages: StageName
+  teamOne:  Array<ProjectRepo>
 }
 
 const config = <ProjectConfig>configFile

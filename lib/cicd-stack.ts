@@ -51,7 +51,7 @@ export class CicdStack extends cdk.Stack {
       `${props.ssmRoot}/lambda/cicd-semver-handler`)
     const semverHandler = lambda.Function.fromFunctionArn(this, 'semverHandler', semverHandlerArn.stringValue)
 
-    // Parse config.repos here to get module branch and owner
+    // Parse config.repos
     for (let repo of props.repos){
       const pipelineName = `${props.prefix}-${repo.pipelineName}-${repo.branch}`.replace(/\/|_/g, '-')
       const modulePipelineRole = new PipelineRole(this, `${pipelineName}PipelineRole`)
@@ -59,7 +59,6 @@ export class CicdStack extends cdk.Stack {
       switch (repo.type) {
         case TriggerType.CodeCommit: {
             const repoName = repo.ccRepoName
-            const repoOwner = repo.owner
             const repoBranch = repo.branch
             const cronTrigger = repo.cron
     
@@ -67,7 +66,6 @@ export class CicdStack extends cdk.Stack {
               artifactsBucket,
               prefix: props.prefix,
               ssmRoot: props.ssmRoot,
-              repoOwner,
               repoName,
               repoBranch,
               cronTrigger,

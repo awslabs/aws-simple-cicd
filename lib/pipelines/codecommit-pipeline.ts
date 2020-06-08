@@ -43,7 +43,6 @@ export interface CodeCommitPipelineProps {
   artifactsBucket: IBucket
   prefix: string
   ssmRoot: string
-  repoOwner: string
   repoName: string
   repoBranch: string,
   cronTrigger?: string,
@@ -59,7 +58,6 @@ export class CodeCommitPipeline extends Pipeline {
       artifactsBucket,
       prefix,
       ssmRoot,
-      repoOwner,
       repoName,
       repoBranch,
       cronTrigger,

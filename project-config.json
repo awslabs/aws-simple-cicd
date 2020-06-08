@@ -8,14 +8,12 @@
     "region": "ca-central-1"
   },
   "accountIds": {
-    "cicd": "628898779211",
     "dev": "850854751783",
     "test": "",
     "prod": ""
   },
   "teamOne": [
     {
-      "owner": "acme",
       "pipelineName": "rocket-powered-skates",
       "ccRepoName": "rocket-powered-skates",
       "branch": "master",

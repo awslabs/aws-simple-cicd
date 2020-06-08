@@ -18,18 +18,29 @@ This platform is in use at a variety of AWS clients where the development teams 
 - Supports pipeline notifications via [AWS SNS](https://aws.amazon.com/sns/)
 - Supports branches (pipeline per branch)
 - Auto-increments [semantic versioning](https://www.semver.org) per pipeline.
-- Battle tested in the field
 
 ## Architecture
 
-This is the pipeline that will be generated for each repository. Each stage triggers a CodeBuild project, which executes a shell script in the source repository.
+This is the pipeline that will be generated for each repository. The build and deployment stages in the pipeline execute a user defined shell script in an isolated docker container. The docker environment is provisioned on the fly by AWS CodeBuild.
 
 The number of stages and their function is fully customizable e.g. adding a stage for security/vulnerability scanning, adding a stage for executing test cases etc.
+
+### AWS Services
+
+- AWS CodeCommit (or any source control providor supported by CodePipeline)
+- AWS CodePipeline
+- AWS CodeBuild
+- AWS Lambda
+- AWS S3
+- AWS SNS
+- AWS CloudWatch
+- AWS Systems Manager: Parameter Store
+- AWS CloudFormation
 
 ![Architecture](./architecture.png "CI/CD Architecture")
 
 ## Getting Started
 
-- [Installation Guide](docs/install.md)
+- [Pre-Requisites](docs/prereq.md)
 - [Administrator Guide](docs/admin.md)
 - [Developer Guide](docs/developer.md)

@@ -64,14 +64,13 @@ Create a directory called scripts in the root of the application source code rep
     set -u
     set -o pipefail
 
-    # Running CDK Project
-
     # Install CDK
     npm install -g aws-cdk
 
     # Install Dependencies
     npm install
     npm run build
+  
     # Deploy
     cdk deploy --require-approval never
     ```
