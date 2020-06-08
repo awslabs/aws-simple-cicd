@@ -44,8 +44,3 @@ The number of stages and their function is fully customizable e.g. adding a stag
 - [Pre-Requisites](docs/prereq.md)
 - [Administrator Guide](docs/admin.md)
 - [Developer Guide](docs/developer.md)
-
-## See also
-
-- [fourTheorem SLIC Starter](https://github.com/fourTheorem/slic-starter)
-- [Semantic Versioning](https://semver.org)
