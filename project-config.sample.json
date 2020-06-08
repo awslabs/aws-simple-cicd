@@ -1,0 +1,43 @@
+{
+  "naming": {
+    "company": "acme",
+    "dept": "markets",
+    "project":  "roadrunner"
+  },
+  "deployment": {
+    "region": "ca-central-1"
+  },
+  "accountIds": {
+    "cicd": "",
+    "dev": "",
+    "test": "",
+    "prod": ""
+  },
+  "teamOne": [
+    {
+      "pipelineName": "rocket-powered-skates",
+      "ccRepoName": "rocket-powered-skates",
+      "branch": "master",
+      "type": "CodeCommit",
+      "cron": ""
+    }
+  ],
+  "teamTwo": [
+    {
+      "pipelineName": "bird-seed", 
+      "ccRepoName": "bird-seed", 
+      "branch": "master",
+      "cron": "",
+      "type": "CodeCommit"
+    }
+  ],
+  "sharedResources": {
+    "cicdBucket": "cicd"
+  },
+  "defaultRegions": {
+    "cicd": "ca-central-1",
+    "dev": "ca-central-1",
+    "test": "ca-central-1",
+    "prod": "ca-central-1"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "cicd",
+  "version": "0.1.0",
+  "bin": {
+    "cicd": "build/bin/cicd.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "deploy": "npm run build && npm run cdk -- deploy",
+    "synth": "npm run build && npm run cdk -- synth AWS-Simple-CICD-TeamOne"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run synth"
+    }
+  },
+  "devDependencies": {
+    "@aws-cdk/aws-codebuild": "^1.44.0",
+    "@aws-cdk/aws-codepipeline": "^1.44.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.44.0",
+    "@aws-cdk/aws-iam": "^1.44.0",
+    "@aws-cdk/aws-lambda": "^1.44.0",
+    "@aws-cdk/aws-s3": "^1.44.0",
+    "@aws-cdk/aws-sam": "^1.44.0",
+    "@aws-cdk/core": "^1.44.0",
+    "@types/node": "^12.12.44",
+    "aws-cdk": "^1.44.0",
+    "aws-sdk": "^2.691.0",
+    "husky": "^3.1.0",
+    "tsort": "0.0.1",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-ssm": "^1.44.0",
+    "source-map-support": "^0.5.16"
+  }
+}
