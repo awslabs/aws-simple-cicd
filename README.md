@@ -1,6 +1,6 @@
 # AWS-Simple-CICD Project
 
-This project aims to provide a production-grade, serverless CI/CD platform built using native AWS services provisioned using AWS Cloud Development Kit (CDK). As per the AWS Well Architected Framework, this project assumes the use of multiple AWS accounts for secure isolation of environments.
+This project aims to provide a serverless CI/CD platform leveraging native AWS services provisioned using AWS Cloud Development Kit (CDK). As per the AWS Well Architected Framework, this project assumes the use of multiple AWS accounts for secure isolation of environments.
 
 This CI/CD platform is in use at a variety of AWS clients where the development teams are leveraging CloudFormation, Serverless Framework, AWS CDK and Terraform.
 
