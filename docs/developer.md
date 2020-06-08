@@ -1,6 +1,6 @@
 # Developer Instructions
 
-The AWS Simple CICD project provides very prescriptive pipelines. As the developer you are responsible for maintaining a *scripts* folder with three files in the root of your code repository.
+The AWS Simple CICD project provides very prescriptive pipelines. As the developer you are responsible for maintaining a scriptsfolder with three files in the root of your code repository.
 
 ```text
 scripts/assume-cross-account-role.env
@@ -18,7 +18,7 @@ Finally, you as the developer are now in complete control of how your applicatio
 
 ## Detailed Instructions
 
-Create a directory called scripts in the root of the application source code repository called *scripts* with 3 files:
+Create a directory called scripts in the root of the application source code repository called ***scripts*** with 3 files:
 
 1. assume-cross-account-role.env
 
@@ -78,7 +78,7 @@ Create a directory called scripts in the root of the application source code rep
       echo "Nothing to build!"
     ```
 
-1. deploy.sh - A bash script which deploys the application. The shell script can trigger Terraform/Cloudformation/AWS CLI etc. Since the shell script will run in the CodeBuild docker environment, as long as the binaries are available CodeBuild will be able to execute it.
+1. deploy.sh - A bash script which deploys the application. The shell script can trigger Terraform/Cloudformation/AWS CDK etc. Since the shell script will run in the AWS CodeBuild docker environment, as long as the binaries are available CodeBuild will be able to execute it.
 
     Sample deployment script which installs AWS CDK and triggers the deployment
 
