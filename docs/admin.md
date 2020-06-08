@@ -22,7 +22,7 @@ Add the account ids of the target accounts to the project-config.json file. The 
 }
 ```
 
-Example
+Example:
 
 ```json
 {
@@ -62,7 +62,7 @@ All the AWS resources provisioned by this project will follow a standard naming 
 }
 ```
 
-Example
+Example:
 
 This will generate resources prefixed with ***acme-markets-roadrunner***
 
@@ -92,7 +92,7 @@ This will generate resources prefixed with ***acme-markets-roadrunner***
 }
 ```
 
-Example
+Example:
 
 The following sample will generate a pipeline called ***acme-markets-roadrunner-rocket-powered-skates-master***
 
