@@ -1,4 +1,4 @@
-# Developer Instructions
+# Developer Guide
 
 These instructions are for the application developers who will be using the CI/CD platform to deliver their applications.
 
