@@ -1,24 +1,17 @@
 # Administrator Guide
 
-[Cross-Account IAM Role](#markdown-header-deploy-cross-account-iam-role)
+Create a [project-config.json](../project-config.sample.json) file in the root of the Simple-CICD project. There is a sample *project-config.sample.json* file provided
 
-[Configure Accounts](#markdown-header-account-definition)
+- [Configure Accounts](#account-definition)
+- [Configure Naming](#naming-definition)
+- [Configure Pipelines](#pipeline-definition)
+- [Deploy Pipelines](#build-and-deploy-the-project)
 
-[Configure Naming](#markdown-header-naming-definition)
-
-[Configure Pipelines](#markdown-header-pipeline-definition)
-
-[Deploy Pipelines](#markdown-header-build-and-deploy-the-project)
-
-## Configuration
-
-Create a [project-config.json](../project-config.sample.json) file in the root of the Simple-CICD project. In the sample provided there are two arrays, for Team One and Team Two. Each element of the array defines a pipeline along with some basic configuration parameters.
-
-### Account definition
+## Account definition
 
 Add the account Ids of the target accounts to the project-config.json file. The account Id will be passed to the deployment stage as an environment variable, thus making it available to your deployment script for the entire duration of the stage.
 
-```json
+```text
 {
   dev: string,
   test: string,
@@ -26,7 +19,7 @@ Add the account Ids of the target accounts to the project-config.json file. The 
 }
 ```
 
-#### Account sample
+### Account sample
 
 ```json
 {
@@ -52,11 +45,11 @@ aws cloudformation deploy --template-file cross-account/deployment-role.yaml --s
 
 The name of the role in the sample provided is *deployment-role*. Once the IAM role has been deployed, the Simple-CICD project needs to be configured to use it. Update *ROLE_NAME* in [assume-cross-account-role.env](../scripts/assume-cross-account-role.env)
 
-### Naming definition
+## Naming definition
 
 All the AWS resources provisioned by this project will follow a standard naming convention. This can be configured as desired.
 
-```json
+```text
 {
   company: string,
   dept: string,
@@ -64,7 +57,7 @@ All the AWS resources provisioned by this project will follow a standard naming 
 }
 ```
 
-#### Naming sample
+### Naming sample
 
 The following sample will generate resources prefixed with *acme-markets-roadrunner*
 
@@ -76,7 +69,7 @@ The following sample will generate resources prefixed with *acme-markets-roadrun
 }
 ```
 
-### Pipeline definition
+## Pipeline definition
 
 - The pipeline name and branch are concatenated to create a unique pipeline per branch.
 - The sample provides a single TriggerType - CodeCommit. This can be extended to add Github, BitBucket etc.
@@ -84,7 +77,7 @@ The following sample will generate resources prefixed with *acme-markets-roadrun
 - A Parameter Store parameter is generated which stores the semantic version and automatically increments (uses python semver library) on every successful build.
 - A Cron parameter can be set to trigger the pipeline on a schedule managed by CloudWatch.
 
-```json
+```text
 {
   pipelineName: string,
   ccRepoName: string,
@@ -94,7 +87,7 @@ The following sample will generate resources prefixed with *acme-markets-roadrun
 }
 ```
 
-#### Pipeline sample
+### Pipeline sample
 
 The following sample will generate a pipeline called *acme-markets-roadrunner-rocket-powered-skates-master*
 
