@@ -110,7 +110,7 @@ AWS CloudFormation has a limit of 200 resources per stack. To bypass this limita
 
 ### Adding a new group
 
-1. Create a new array in project-config.json. See teamOne or teamTwo for an example.
+1. Create a new array in project-config.json for Team Three. See teamOne or teamTwo for an example.
 
     ```bash
     "teamThree": [
@@ -124,7 +124,7 @@ AWS CloudFormation has a limit of 200 resources per stack. To bypass this limita
     ]
     ```
 
-1. Update [config.ts](../config/config.ts) and update the ProjectConfig interface.
+1. Update [config.ts](../config/config.ts) and update the ProjectConfig interface by exporting the configuration for Team Three.
 
     ```bash
       teamThree:  Array<ProjectRepo>
