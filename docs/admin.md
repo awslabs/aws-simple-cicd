@@ -43,7 +43,7 @@ A sample IAM role and profile is provided in this project if this does not alrea
 ```bash
 cd cross-account
 
-aws cloudformation deploy --template-file cross-account/deployment-role.yaml --stack-name cicd-iam-stack --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation deploy --template-file deployment-role.yaml --stack-name cicd-iam-stack --capabilities CAPABILITY_NAMED_IAM
 ```
 
 The name of the role in the sample provided is ***deployment-role***. Once the IAM role has been deployed, the Simple-CICD project needs to be configured to use it.
