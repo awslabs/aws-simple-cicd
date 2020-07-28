@@ -27,7 +27,7 @@ Resources:
           - Effect: Allow
             Principal:
               AWS:
-              - !Ref AWS::AccountId
+              - !Ref SharedAccountId
             Action:
               - 'sts:AssumeRole'
 
@@ -51,3 +51,7 @@ Resources:
             Resource: '*'
       Roles:
         - !Ref DeploymentRole
+Parameters:
+  SharedAccountId:
+    Type: String
+    Description: Enter the account id of the shared account        
