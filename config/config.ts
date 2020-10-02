@@ -24,7 +24,7 @@ export enum TriggerType {
 }
 
 export enum Regions {
-  CanadaCentral="CA-CENTRAL-1"
+  USEast1 = "us-east-1"
 }
 
 export enum StageName {
