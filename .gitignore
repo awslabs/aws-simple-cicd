@@ -65,3 +65,5 @@ _GIT_REPO/
 # Transpiled typescript files
 build/
 
+demo/.classpath
+demo/.project
