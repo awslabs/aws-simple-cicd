@@ -15,7 +15,7 @@ Create a [project-config.json](../project-config.sample.json) file in the root o
 
 ## Configure Accounts
 
-Add the account ids of the target accounts to the project-config.json file. The account Id will be passed to the deployment stage as an environment variable. Do not set the account id for any environment you do not want to target.
+Add the account ids of the target accounts to the project-config.json file. The account Id will be passed to the deployment stage as an environment variable. Leave the account id blank for any environment you do not want to target.
 
 ```text
 {
