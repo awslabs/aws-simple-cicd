@@ -20,7 +20,7 @@ Resources:
   DeploymentRole:
     Type: AWS::IAM::Role 
     Properties:
-      RoleName: cicd-role
+      RoleName: deployment-role
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:

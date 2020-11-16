@@ -30,19 +30,6 @@ let prefix = `${config.naming.company}-${config.naming.dept}-${config.naming.pro
 let ssmRoot = `/${config.naming.company}/${config.naming.dept}/${config.naming.project}`
 let cicdRoleName = config.deployment['cicdRoleName']
 
-// // Update assume-cross-account-role.env
-// let fs = require('fs')
-// fs.readFile('./scripts/assume-cross-account-role.env', 'utf8', function (err: any,data: string) {
-//   if (err) {
-//     return console.log(err);
-//   }
-//   let result = data.replace(/{{cicdRoleName}}/g, cicdRoleName);
-
-//   fs.writeFile('./scripts/assume-cross-account-role.env', result, 'utf8', function (err: any) {
-//     if (err) return console.log(err);
-//   });
-// });
-
 const app = new cdk.App()
 
 new S3Stack(app, 'AWS-Simple-CICD-S3', { prefix, ssmRoot })
