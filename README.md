@@ -6,6 +6,7 @@ This CI/CD platform is in use at a variety of AWS clients where the development 
 
 ## Goals
 
+- Pipelines as code.
 - Bring Developers closer to their infrastructure and operations by providing a prescriptive platform.
 - Support for (almost) any toolset the application developers want to use e.g. Terraform, CDK, Cloudformation, Pulumi etc.
 - Minimize platform lock-in. Applications can be migrated to other CI/CD orchestration platform with minimal changes required by the developers.
