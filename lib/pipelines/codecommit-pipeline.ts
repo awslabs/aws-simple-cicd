@@ -26,6 +26,7 @@ import {
   ManualApprovalAction,
   LambdaInvokeAction
 } from '@aws-cdk/aws-codepipeline-actions'
+import config from '../../config/config'
 import { StageName } from '../../config/config';
 import CodeBuildRole from '../iam/code-build-role'
 import { DeployProject } from '../projects/deploy-project'
@@ -33,7 +34,7 @@ import { Role } from '@aws-cdk/aws-iam'
 import { IFunction } from '@aws-cdk/aws-lambda'
 import { Repository } from '@aws-cdk/aws-codecommit'
 import { BuildProject } from '../projects/build-project'
-import { BuildEnvironmentVariableType } from '@aws-cdk/aws-codebuild'
+import { BuildEnvironmentVariableType, Project } from '@aws-cdk/aws-codebuild'
 import { Rule, Schedule } from '@aws-cdk/aws-events'
 import ssm = require('@aws-cdk/aws-ssm');
 import sns = require('@aws-cdk/aws-sns');
@@ -166,47 +167,46 @@ export class CodeCommitPipeline extends Pipeline {
     // Deploy
     ;[StageName.dev, StageName.test, StageName.prod].forEach((stageName: StageName) => {
 
-      const deployRole = new CodeBuildRole(this, `${stageName}DeployRole`, { stageName })
-
-      const deployProject = new DeployProject(
-        this,
-        `${prefix}-${repoName}-${repoBranch}-${stageName}-deploy`,
-        {
-          repoName: repoName,
-          stageName: stageName,
-          role: deployRole,
-          bucketArn: artifactsBucket.bucketArn,
-          bucketName: artifactsBucket.bucketName
-        }
-      )
-
-      deployProject.onStateChange('deploymentStatus', {
-        target: new targets.LambdaFunction(emailHandler)
-      })
-
-      const moduleDeployOutputArtifact = new Artifact()
-      const moduleDeployAction = new CodeBuildAction({
-        actionName: 'Deploy',
-        input: buildOutputArtifact,
-        outputs: [moduleDeployOutputArtifact],
-        project: deployProject,
-        role: modulePipelineRole
-      })
-
-      this.addStage({
-        stageName: `${stageName}-deploy`,
-        actions: [moduleDeployAction]
-      })
-
-      if (stageName == 'test') {
-        this.addStage({
-          stageName: 'prod-approval',
-          actions: [new ManualApprovalAction({
-            actionName: 'Promote'
-            })]
+      if (config.accountIds[stageName]) {
+        const deployRole = new CodeBuildRole(this, `${stageName}DeployRole`, { stageName })
+        const deployProject = new DeployProject(
+          this,
+          `${prefix}-${repoName}-${repoBranch}-${stageName}-deploy`,
+          {
+            repoName: repoName,
+            stageName: stageName,
+            role: deployRole,
+            bucketArn: artifactsBucket.bucketArn,
+            bucketName: artifactsBucket.bucketName
+          }
+        )
+        deployProject.onStateChange('deploymentStatus', {
+          target: new targets.LambdaFunction(emailHandler)
         })
+
+        const moduleDeployOutputArtifact = new Artifact()
+        const moduleDeployAction = new CodeBuildAction({
+          actionName: 'Deploy',
+          input: buildOutputArtifact,
+          outputs: [moduleDeployOutputArtifact],
+          project: deployProject,
+          role: modulePipelineRole
+        })
+        this.addStage({
+          stageName: `${stageName}-deploy`,
+          actions: [moduleDeployAction]
+        })
+        
+        if (stageName == 'test') {
+          this.addStage({
+            stageName: 'prod-approval',
+            actions: [new ManualApprovalAction({
+              actionName: 'Promote'
+              })]
+          })
+        }
       }
-    })
+    })      
 
     if (props.cronTrigger) {
       const cwRule = new Rule(this, `${pipelineName}-cronTrigger`, {

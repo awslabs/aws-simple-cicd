@@ -78,7 +78,6 @@ def get_user_params(job_data):
         # Get the user parameters which contain the stack, artifact and file settings
         user_parameters = job_data['actionConfiguration']['configuration']['UserParameters']
         decoded_parameters = json.loads(user_parameters)
-        print (decoded_parameters)
     except Exception as e:
         # We're expecting the user parameters to be encoded as JSON
         # so we can pass multiple values. If the JSON can't be decoded
@@ -108,7 +107,6 @@ def semver_handler(event, context):
     
     # Extract the params
     params = get_user_params(job_data)
-    print (params)
     repo = params['repo']
     branch = params['branch']
 
