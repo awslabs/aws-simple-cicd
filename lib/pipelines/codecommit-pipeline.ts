@@ -34,7 +34,7 @@ import { Role } from '@aws-cdk/aws-iam'
 import { IFunction } from '@aws-cdk/aws-lambda'
 import { Repository } from '@aws-cdk/aws-codecommit'
 import { BuildProject } from '../projects/build-project'
-import { BuildEnvironmentVariableType, Project } from '@aws-cdk/aws-codebuild'
+import { BuildEnvironmentVariableType } from '@aws-cdk/aws-codebuild'
 import { Rule, Schedule } from '@aws-cdk/aws-events'
 import ssm = require('@aws-cdk/aws-ssm');
 import sns = require('@aws-cdk/aws-sns');
