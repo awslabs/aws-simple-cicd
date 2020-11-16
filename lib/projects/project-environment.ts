@@ -45,6 +45,10 @@ export function projectEnvironmentVars(props: {
       type: BuildEnvironmentVariableType.PLAINTEXT,
       value: `${config.accountIds[props.stageName]}`
     },
+    CROSS_ACCOUNT_ROLE: {
+      type: BuildEnvironmentVariableType.PLAINTEXT,
+      value: config.deployment['cicdRoleName']
+    },
     REPO_NAME: {
       type: BuildEnvironmentVariableType.PLAINTEXT,
       value: props.repoName

@@ -123,7 +123,7 @@ The following sample will generate a pipeline called ***acme-markets-roadrunner-
 
 ## Grouping Pipelines
 
-AWS CloudFormation has a limit of 200 resources per stack. To bypass this limitation we recommend grouping pipelines together and generating a separate stack for each group. In the [sample](../project-config.sample.json) the pipelines are grouped by team, Team One and Team Two.
+AWS CloudFormation has a limit of 500 resources per stack. To bypass this limitation we recommend grouping pipelines together and generating a separate stack for each group. In the [sample](../project-config.sample.json) the pipelines are grouped by team, Team One and Team Two.
 
 ### Adding a new group
 
@@ -164,7 +164,8 @@ npm install
 
 npm run build
 
+# The bootstrap only needs to be executed once
 cdk bootstrap --profile <shared services account profile>
 
-cdk deploy '*' --profile <shared services account profile>
+cdk deploy --all --profile <shared services account profile>
 ```

@@ -43,27 +43,12 @@ export class CicdStack extends cdk.Stack {
       `${props.ssmRoot}/buckets/cicdArtifactsBucketName`)
     const artifactsBucket = Bucket.fromBucketName(this, 'artifactsBucket', artifactsBucketName.stringValue)
 
-    // Update assume-cross-account-role.env
-    var fs = require('fs')
-    fs.readFile('./scripts/assume-cross-account-role.env.tmpl', 'utf8', function (err: any,data: string) {
-      if (err) {
-        return console.log(err);
-      }
-      var result = data.replace(/{{cicdRoleName}}/g, props.cicdRoleName);
-
-      fs.writeFile('./scripts/assume-cross-account-role.env', result, 'utf8', function (err: any) {
-        if (err) return console.log(err);
-      });
-    });
-
-    // Push to S3
+    // Push assume-cross-account-role.env to S3
     new s3deploy.BucketDeployment(this, 'DeployAssumeRole', {
       sources: [s3deploy.Source.asset('./scripts')],
       destinationBucket: artifactsBucket,
       destinationKeyPrefix: 'admin/cross-account'
     });
-
-
 
     // Get Lambda email handler function
     const emailHandlerArn = ssm.StringParameter.fromStringParameterName(this, 'emailHandlerArn', 
