@@ -184,6 +184,15 @@ export class CodeCommitPipeline extends Pipeline {
           target: new targets.LambdaFunction(emailHandler)
         })
 
+        if (stageName == 'prod') {
+          this.addStage({
+            stageName: 'prod-approval',
+            actions: [new ManualApprovalAction({
+              actionName: 'Promote'
+              })]
+          })
+        }
+
         const moduleDeployOutputArtifact = new Artifact()
         const moduleDeployAction = new CodeBuildAction({
           actionName: 'Deploy',
@@ -196,15 +205,6 @@ export class CodeCommitPipeline extends Pipeline {
           stageName: `${stageName}-deploy`,
           actions: [moduleDeployAction]
         })
-        
-        if (stageName == 'test') {
-          this.addStage({
-            stageName: 'prod-approval',
-            actions: [new ManualApprovalAction({
-              actionName: 'Promote'
-              })]
-          })
-        }
       }
     })      
 
