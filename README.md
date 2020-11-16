@@ -1,6 +1,6 @@
 # AWS-Simple-CICD Project
 
-This project aims to provide a serverless CI/CD platform leveraging native AWS services provisioned using AWS Cloud Development Kit (CDK). As per the AWS Well Architected Framework, this project assumes the use of multiple AWS accounts for secure isolation of environments.
+This project provides a serverless CI/CD platform leveraging native AWS services provisioned using the AWS Cloud Development Kit (CDK). As per the AWS Well Architected Framework, this project assumes the use of multiple AWS accounts for secure isolation of environments.
 
 This CI/CD platform is in use at a variety of AWS clients where the development teams are leveraging CloudFormation, Serverless Framework, AWS CDK and Terraform.
 
@@ -15,7 +15,7 @@ This CI/CD platform is in use at a variety of AWS clients where the development 
 ## Features
 
 - Cloud native and built on top of [AWS Serverless CI/CD tools](https://aws.amazon.com/serverless/developer-tools/)
-- Plug & Play on top of [AWS Landing Zone](https://aws.amazon.com/solutions/implementations/aws-landing-zone/)/[Control Tower](https://aws.amazon.com/controltower/)
+- Runs on top of [AWS Landing Zone](https://aws.amazon.com/solutions/implementations/aws-landing-zone/)/[Control Tower](https://aws.amazon.com/controltower/)
 - Supports pipeline notifications via [AWS SNS](https://aws.amazon.com/sns/)
 - Supports branches (pipeline per branch)
 - Auto-increments [semantic versioning](https://www.semver.org) per pipeline.

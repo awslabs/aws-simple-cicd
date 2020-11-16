@@ -62,6 +62,5 @@ _GIT_REPO/
 *.js
 *.d.ts
 
-# Transpiled typescript files
-build/
-
+# Simple-CICD specific files
+project-config.json

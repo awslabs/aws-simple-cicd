@@ -33,7 +33,8 @@
         "**/.gitignore",
         "scripts/**",
         "**/*.drawio",
-        "**/*.env"
+        "**/*.env",
+        "**/*.tmpl"
       ],
       "autoHeader": "manualSave",
       "enforceHeader": true

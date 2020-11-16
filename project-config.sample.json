@@ -5,7 +5,8 @@
     "project":  "roadrunner"
   },
   "deployment": {
-    "region": "ca-central-1"
+    "region": "ca-central-1",
+    "cicdRoleName": "deployment-role"
   },
   "accountIds": {
     "cicd": "",

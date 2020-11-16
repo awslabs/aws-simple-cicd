@@ -18,8 +18,9 @@
 
 
 import cdk = require('@aws-cdk/core')
-import ssm = require('@aws-cdk/aws-ssm');
-import lambda = require('@aws-cdk/aws-lambda');
+import ssm = require('@aws-cdk/aws-ssm')
+import lambda = require('@aws-cdk/aws-lambda')
+import s3deploy = require('@aws-cdk/aws-s3-deployment')
 import { Bucket } from '@aws-cdk/aws-s3'
 import { CodeCommitPipeline } from './pipelines/codecommit-pipeline'
 import PipelineRole from './iam/pipeline-role';
@@ -29,6 +30,7 @@ import { ProjectRepo, TriggerType } from '../config/config';
 interface CicdStackProps extends cdk.StackProps {
   prefix: string,
   ssmRoot: string,
+  cicdRoleName: string
   repos: Array<ProjectRepo>
 }
 
@@ -40,6 +42,13 @@ export class CicdStack extends cdk.Stack {
     const artifactsBucketName = ssm.StringParameter.fromStringParameterName(this, 'artifactsBucketName', 
       `${props.ssmRoot}/buckets/cicdArtifactsBucketName`)
     const artifactsBucket = Bucket.fromBucketName(this, 'artifactsBucket', artifactsBucketName.stringValue)
+
+    // Push assume-cross-account-role.env to S3
+    new s3deploy.BucketDeployment(this, 'DeployAssumeRole', {
+      sources: [s3deploy.Source.asset('./scripts')],
+      destinationBucket: artifactsBucket,
+      destinationKeyPrefix: 'admin/cross-account'
+    });
 
     // Get Lambda email handler function
     const emailHandlerArn = ssm.StringParameter.fromStringParameterName(this, 'emailHandlerArn', 
