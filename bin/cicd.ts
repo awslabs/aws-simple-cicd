@@ -28,12 +28,12 @@ import {default as config } from '../config/config'
 // Setup prefix
 let prefix = `${config.naming.company}-${config.naming.dept}-${config.naming.project}`
 let ssmRoot = `/${config.naming.company}/${config.naming.dept}/${config.naming.project}`
-
+let cicdRoleName = config.deployment['cicdRoleName']
 
 const app = new cdk.App()
 
 new S3Stack(app, 'AWS-Simple-CICD-S3', { prefix, ssmRoot })
 new EmailHandlerStack(app, 'AWS-Simple-CICD-EmailHandler', { prefix, ssmRoot })
 new SemverHandlerStack(app, 'AWS-Simple-CICD-SemverHandler', { prefix, ssmRoot })
-new CicdStack(app, 'AWS-Simple-CICD-TeamOne', { prefix, ssmRoot, repos: config.teamOne})
+new CicdStack(app, 'AWS-Simple-CICD-TeamOne', { prefix, ssmRoot, cicdRoleName, repos: config.teamOne})
 //new CicdStack(app, 'TeamTWo-CICD', { prefix, ssmRoot, repos: config.teamTwo})

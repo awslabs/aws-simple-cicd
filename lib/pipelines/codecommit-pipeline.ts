@@ -219,7 +219,7 @@ export class CodeCommitPipeline extends Pipeline {
 
     new ssm.StringParameter(this, `${repoName}${repoBranch}Version`, {
       description: `Version number of ${repoName}/${repoBranch}`,
-      parameterName: `${ssmRoot}/${repoName}/${repoBranch}/version`,
+      parameterName: `${ssmRoot}/codecommit/${repoName}/${repoBranch}/version`,
       stringValue: '0.1.0'
     })
   }

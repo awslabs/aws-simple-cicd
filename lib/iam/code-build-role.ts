@@ -38,13 +38,7 @@ export default class CodeBuildRole extends iam.Role {
       this.addToPolicy(new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['sts:AssumeRole'],
-        resources: [`arn:aws:iam::${config.accountIds[stageName]}:role/deployment-role`]
-      }))
-
-      this.addToPolicy(new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['cloudformation:Describe*'],
-        resources: [`arn:aws:cloudformation:${config.deployment.region}:${config.accountIds[stageName]}:stack/*/*`]
+        resources: [`arn:aws:iam::${config.accountIds[stageName]}:role/${config.deployment['cicdRoleName']}`]
       }))
     }
     

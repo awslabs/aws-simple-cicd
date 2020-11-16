@@ -37,7 +37,6 @@ def put_job_success(job, message):
     
     """
     print('Putting job success')
-    print(message)
     try:
       code_pipeline.put_job_success_result(jobId=job)
       
@@ -56,7 +55,6 @@ def put_job_failure(job, message):
     
     """
     print('Putting job failure')
-    print(message)
     try:
       code_pipeline.put_job_failure_result(jobId=job, failureDetails={'message': message, 'type': 'JobFailed'})
 

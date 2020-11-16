@@ -50,6 +50,7 @@ export class DeployProject extends PipelineProject {
           },
           build: {
             commands: [
+              'if [ ! -f "${CODEBUILD_SRC_DIR}/scripts/assume-cross-account-role.env" ]; then echo "assume-cross-account-this.role.env not found in repo" && aws s3 cp s3://${ARTIFACTS_BUCKET_NAME}/admin/cross-account/assume-cross-account-role.env ${CODEBUILD_SRC_DIR}/scripts/; else echo "Overriding assume-cross-account-role.env from repo"; fi',
               '. ${CODEBUILD_SRC_DIR}/scripts/assume-cross-account-role.env',
               'bash ${CODEBUILD_SRC_DIR}/scripts/deploy.sh'
             ]

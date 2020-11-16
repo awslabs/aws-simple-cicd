@@ -48,7 +48,8 @@ export interface ProjectConfig {
     project: string
   },
   deployment: {
-    region: string
+    region: string,
+    cicdRoleName: string
   },
   accountIds: {
     dev: string,

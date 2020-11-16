@@ -2,7 +2,7 @@
   "name": "cicd",
   "version": "0.1.0",
   "bin": {
-    "cicd": "build/bin/cicd.js"
+    "cicd": "bin/cicd.js"
   },
   "scripts": {
     "build": "tsc",
@@ -17,23 +17,24 @@
     }
   },
   "devDependencies": {
-    "@aws-cdk/aws-codebuild": "^1.44.0",
-    "@aws-cdk/aws-codepipeline": "^1.44.0",
-    "@aws-cdk/aws-codepipeline-actions": "^1.44.0",
-    "@aws-cdk/aws-iam": "^1.44.0",
-    "@aws-cdk/aws-lambda": "^1.44.0",
-    "@aws-cdk/aws-s3": "^1.44.0",
-    "@aws-cdk/aws-sam": "^1.44.0",
-    "@aws-cdk/core": "^1.44.0",
-    "@types/node": "^12.12.44",
-    "aws-cdk": "^1.44.0",
-    "aws-sdk": "^2.691.0",
-    "husky": "^3.1.0",
+    "@aws-cdk/aws-codebuild": "^1.73.0",
+    "@aws-cdk/aws-codepipeline": "^1.73.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.73.0",
+    "@aws-cdk/aws-iam": "^1.73.0",
+    "@aws-cdk/aws-lambda": "^1.73.0",
+    "@aws-cdk/aws-s3": "^1.73.0",
+    "@aws-cdk/aws-sam": "^1.73.0",
+    "@aws-cdk/core": "^1.73.0",
+    "@types/node": "^14.14.7",
+    "aws-cdk": "^1.73.0",
+    "aws-sdk": "^2.792.0",
+    "husky": "^4.3.0",
     "tsort": "0.0.1",
-    "typescript": "^3.9.5"
+    "typescript": "^4.0.5"
   },
   "dependencies": {
-    "@aws-cdk/aws-ssm": "^1.44.0",
-    "source-map-support": "^0.5.16"
+    "@aws-cdk/aws-s3-deployment": "^1.73.0",
+    "@aws-cdk/aws-ssm": "^1.73.0",
+    "source-map-support": "^0.5.19"
   }
 }
