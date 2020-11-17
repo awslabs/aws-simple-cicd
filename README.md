@@ -4,6 +4,12 @@ This project provides a serverless CI/CD platform leveraging native AWS services
 
 This CI/CD platform is in use at a variety of AWS clients where the development teams are leveraging CloudFormation, Serverless Framework, AWS CDK and Terraform.
 
+## Getting started
+
+- [Pre-Requisites](docs/prereq.md)
+- [Administrator Guide](docs/admin.md)
+- [Developer Guide](docs/developer.md)
+
 ## Goals
 
 - Pipelines as code.
@@ -39,9 +45,3 @@ The number of stages and their function is fully customizable e.g. adding a stag
 - AWS CloudWatch
 - AWS Systems Manager: Parameter Store
 - AWS CloudFormation
-
-## Getting started
-
-- [Pre-Requisites](docs/prereq.md)
-- [Administrator Guide](docs/admin.md)
-- [Developer Guide](docs/developer.md)

@@ -34,7 +34,7 @@ import { Role } from '@aws-cdk/aws-iam'
 import { IFunction } from '@aws-cdk/aws-lambda'
 import { Repository } from '@aws-cdk/aws-codecommit'
 import { BuildProject } from '../projects/build-project'
-import { BuildEnvironmentVariableType } from '@aws-cdk/aws-codebuild'
+import { TestProject } from '../projects/test-project'
 import { Rule, Schedule } from '@aws-cdk/aws-events'
 import ssm = require('@aws-cdk/aws-ssm');
 import sns = require('@aws-cdk/aws-sns');
@@ -88,22 +88,19 @@ export class CodeCommitPipeline extends Pipeline {
       stringValue: notificationTopic.topicArn
     })
 
+    // Source Control Stage (CodeCommit)
     const sourceOutputArtifact = new Artifact('SourceArtifact')
-    const buildOutputArtifact = new Artifact('BuildArtifact')
-    
     const codeCommitRepo = Repository.fromRepositoryName(
       scope,
       `${repoName}${repoBranch}CodeCommitRepo`,
       repoName
     )
 
-    // CodeCommit Repo Target
     codeCommitRepo.onCommit('OnCommit', {
       target: new targets.CodePipeline(this),
       branches: [`${repoBranch}`]
     })
 
-    // SourceAction
     const sourceAction = new CodeCommitSourceAction({
       repository: codeCommitRepo,
       branch: repoBranch,
@@ -116,29 +113,18 @@ export class CodeCommitPipeline extends Pipeline {
       actions: [sourceAction]
     })
     
-    // Build
-    const sourceCodeBuildRole = new CodeBuildRole(this, 'sourceCodeBuildRole')
+    // Building Stage
+    const buildOutputArtifact = new Artifact('BuildArtifact')
+    const buildRole = new CodeBuildRole(this, 'buildRole')
 
-    const buildProject = new BuildProject(this, 'sourceProject', {
-      projectName: `${prefix}-${repoName}-${repoBranch}-build`,
-      role: sourceCodeBuildRole,
-      environmentVariables: {
-        ARTIFACTS_BUCKET_NAME: {
-          type: BuildEnvironmentVariableType.PLAINTEXT,
-          value: artifactsBucket.bucketName
-        },
-        ARTIFACTS_BUCKET_ARN: {
-          type: BuildEnvironmentVariableType.PLAINTEXT,
-          value: artifactsBucket.bucketArn
-        },
-        REPO_NAME: {
-          type: BuildEnvironmentVariableType.PLAINTEXT,
-          value: repoName
-        }
-      }
+    const buildProject = new BuildProject(this, `${prefix}-${repoName}-${repoBranch}-build`, {
+        repoName: repoName,
+        role: buildRole,
+        bucketArn: artifactsBucket.bucketArn,
+        bucketName: artifactsBucket.bucketName
     })
 
-    buildProject.onStateChange('deploymentStatus', {
+    buildProject.onStateChange('buildStatus', {
       target: new targets.LambdaFunction(emailHandler)
     })
 
@@ -164,7 +150,34 @@ export class CodeCommitPipeline extends Pipeline {
       actions: [buildAction, semverAction]
     })
 
-    // Deploy
+    // Testing Stage
+    const testOutputArtifact = new Artifact('TestArtifact')
+    const testRole = new CodeBuildRole(this, 'testRole')
+
+    const testProject = new TestProject(this, `${prefix}-${repoName}-${repoBranch}-test`, {
+        repoName: repoName,
+        role: testRole,
+        bucketArn: artifactsBucket.bucketArn,
+        bucketName: artifactsBucket.bucketName
+    })
+
+    testProject.onStateChange('testStatus', {
+      target: new targets.LambdaFunction(emailHandler)
+    })
+
+    const testAction = new CodeBuildAction ({
+      actionName: 'Test',
+      outputs: [testOutputArtifact],
+      input: buildOutputArtifact,
+      project: testProject
+    })
+
+    this.addStage({
+      stageName: 'Test',
+      actions: [testAction]
+    })
+
+    // Deploying Stage (One stage per target environment)
     ;[StageName.dev, StageName.test, StageName.prod].forEach((stageName: StageName) => {
 
       if (config.accountIds[stageName]) {
@@ -196,13 +209,13 @@ export class CodeCommitPipeline extends Pipeline {
         const moduleDeployOutputArtifact = new Artifact()
         const moduleDeployAction = new CodeBuildAction({
           actionName: 'Deploy',
-          input: buildOutputArtifact,
+          input: testOutputArtifact,
           outputs: [moduleDeployOutputArtifact],
           project: deployProject,
           role: modulePipelineRole
         })
         this.addStage({
-          stageName: `${stageName}-deploy`,
+          stageName: `Deploy-to-${stageName}-environment`,
           actions: [moduleDeployAction]
         })
       }

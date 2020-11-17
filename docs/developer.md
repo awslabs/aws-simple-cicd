@@ -7,18 +7,20 @@ As the developer you are responsible for maintaining a scripts folder with three
 ```text
 scripts/build.sh
 
+scripts/test.sh
+
 scripts/deploy.sh
 ```
 
-The build and deploy scripts must contain all the commands required to build your application, including the installation of any dependencies. The pipeline will execute the build script once. The deploy script will be executed once per target environment i.e dev, test and prod.
+The build,test and deploy scripts must contain all the commands required to build your application, including the installation of any dependencies. The pipeline will execute the build and test scripts once per run. The deploy script will be executed once per target environment i.e dev, test and prod.
 
 This enforces the *"build once, deploy many"* paradigm and also ensures that your deployment script is environment agnostic.
 
-Finally, you as the developer are now in complete control of how your applications gets deployed to your AWS accounts.
+Finally, you as the developer are now in complete control of how your applications get deployed to your AWS accounts.
 
 ## Detailed Instructions
 
-Create a directory called scripts in the root of the application source code repository called ***scripts*** with 2 files:
+Create a directory called scripts in the root of the application source code repository called ***scripts*** with 3 files:
 
 1. build.sh
 
@@ -56,6 +58,20 @@ Create a directory called scripts in the root of the application source code rep
       set -o pipefail
 
       echo "Nothing to build!"
+    ```
+
+1. test.sh
+
+    Sample build script for a project which doesn't require a build
+
+    ```bash
+      #! /bin/bash
+
+      set -e
+      set -u
+      set -o pipefail
+
+      echo "Nothing to test. Tests executed as part of build."
     ```
 
 1. deploy.sh - A bash script which deploys the application. The shell script can trigger Terraform/Cloudformation/AWS CDK etc. Since the shell script will run in the AWS CodeBuild docker environment, as long as the binaries are available CodeBuild will be able to execute it.
