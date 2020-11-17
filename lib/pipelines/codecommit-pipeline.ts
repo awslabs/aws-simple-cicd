@@ -151,7 +151,7 @@ export class CodeCommitPipeline extends Pipeline {
     })
 
     // Testing Stage
-    const testOutputArtifact = new Artifact('BuildArtifact')
+    const testOutputArtifact = new Artifact('TestArtifact')
     const testRole = new CodeBuildRole(this, 'testRole')
 
     const testProject = new TestProject(this, `${prefix}-${repoName}-${repoBranch}-test`, {
@@ -177,7 +177,7 @@ export class CodeCommitPipeline extends Pipeline {
       actions: [testAction]
     })
 
-    // Deploy
+    // Deploying Stage (One stage per target environment)
     ;[StageName.dev, StageName.test, StageName.prod].forEach((stageName: StageName) => {
 
       if (config.accountIds[stageName]) {
@@ -215,7 +215,7 @@ export class CodeCommitPipeline extends Pipeline {
           role: modulePipelineRole
         })
         this.addStage({
-          stageName: `${stageName}-deploy`,
+          stageName: `Deploy-to-${stageName}-environment`,
           actions: [moduleDeployAction]
         })
       }
