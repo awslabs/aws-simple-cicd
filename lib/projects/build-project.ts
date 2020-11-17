@@ -19,15 +19,25 @@
 
 import { Construct } from '@aws-cdk/core'
 import { PipelineProject, ProjectProps, BuildSpec} from '@aws-cdk/aws-codebuild'
-import { defaultEnvironment } from './project-environment'
+import { defaultEnvironment } from './build-project-environment'
+import { projectEnvironmentVars } from './build-project-environment'
+import { Role } from '@aws-cdk/aws-iam'
 
 export interface BuildProjectProps extends ProjectProps {
+  repoName: string
+  bucketName: string
+  bucketArn: string
+  role: Role
 }
 
 export class BuildProject extends PipelineProject {
   constructor(scope: Construct, id: string, props: BuildProjectProps) {
-    const { ...rest } = props
+    const { repoName, bucketName, bucketArn } = props
     super(scope, id, {
+      projectName: id,
+      role: props.role,
+      environment: defaultEnvironment,
+      environmentVariables: projectEnvironmentVars({ repoName, bucketName, bucketArn }),
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
         phases: {
@@ -40,18 +50,12 @@ export class BuildProject extends PipelineProject {
             commands: [
               'bash ${CODEBUILD_SRC_DIR}/scripts/build.sh'
             ]
-          },
-          post_build: {
-            commands: [
-            ]
           }
         },
         artifacts: {
           files: '**/*'
         }
-      }),
-      environment: defaultEnvironment,
-      ...rest
+      })
     })
   }
 }

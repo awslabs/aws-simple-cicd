@@ -17,29 +17,27 @@
  */
 
 
-import { PipelineProject, BuildSpec } from '@aws-cdk/aws-codebuild'
 import { Construct } from '@aws-cdk/core'
-import { defaultEnvironment } from './deploy-project-environment'
-import { projectEnvironmentVars } from './deploy-project-environment'
+import { PipelineProject, ProjectProps, BuildSpec} from '@aws-cdk/aws-codebuild'
+import { defaultEnvironment } from './build-project-environment'
+import { projectEnvironmentVars } from './build-project-environment'
 import { Role } from '@aws-cdk/aws-iam'
-import { StageName } from '../../config/config';
 
-export interface DeployProjectProps {
+export interface BuildProjectProps extends ProjectProps {
   repoName: string
-  stageName: StageName
   bucketName: string
   bucketArn: string
   role: Role
 }
 
-export class DeployProject extends PipelineProject {
-  constructor(scope: Construct, id: string, props: DeployProjectProps) {
-    const { repoName, stageName, bucketName, bucketArn } = props
+export class TestProject extends PipelineProject {
+  constructor(scope: Construct, id: string, props: BuildProjectProps) {
+    const { repoName, bucketName, bucketArn } = props
     super(scope, id, {
       projectName: id,
       role: props.role,
       environment: defaultEnvironment,
-      environmentVariables: projectEnvironmentVars({ stageName, repoName, bucketName, bucketArn }),
+      environmentVariables: projectEnvironmentVars({ repoName, bucketName, bucketArn }),
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
         phases: {
@@ -50,11 +48,12 @@ export class DeployProject extends PipelineProject {
           },
           build: {
             commands: [
-              'if [ ! -f "${CODEBUILD_SRC_DIR}/scripts/assume-cross-account-role.env" ]; then echo "assume-cross-account-this.role.env not found in repo" && aws s3 cp s3://${ARTIFACTS_BUCKET_NAME}/admin/cross-account/assume-cross-account-role.env ${CODEBUILD_SRC_DIR}/scripts/; else echo "Overriding assume-cross-account-role.env from repo"; fi',
-              '. ${CODEBUILD_SRC_DIR}/scripts/assume-cross-account-role.env',
-              'bash ${CODEBUILD_SRC_DIR}/scripts/deploy.sh'
+              'bash ${CODEBUILD_SRC_DIR}/scripts/test.sh'
             ]
           }
+        },
+        artifacts: {
+          files: '**/*'
         }
       })
     })
