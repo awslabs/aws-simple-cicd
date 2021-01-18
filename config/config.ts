@@ -20,7 +20,8 @@
 import configFile from "../project-config.json"
 
 export enum TriggerType {
-  CodeCommit = "CodeCommit"
+  CodeCommit = "CodeCommit",
+  GitHub = "GitHub"
 }
 
 export enum Regions {
@@ -35,10 +36,12 @@ export enum StageName {
 
 export type ProjectRepo = {
   pipelineName: string,
-  ccRepoName: string,
+  repository: string,
   branch: string,
   type: TriggerType,
-  cron: string
+  owner?: any,
+  secret?: any,
+  cron?: any
 }
 
 export interface ProjectConfig {

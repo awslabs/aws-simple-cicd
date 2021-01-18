@@ -95,7 +95,8 @@ This will generate resources prefixed with ***acme-markets-roadrunner***
 - The sample provides a single TriggerType - CodeCommit. This can be extended to add Github, BitBucket etc.
 - An SNS Topic is generated for the pipeline. Subscribers receive notifications on status of each pipeline stage. Emails are sent by a Lambda function.
 - A Parameter Store parameter is generated which stores the semantic version and automatically increments (uses python semver library) on every successful build.
-- A Cron parameter can be set to trigger the pipeline on a schedule managed by CloudWatch.
+- A Cron parameter can be set to trigger the pipeline on a schedule managed by CloudWatch. (optional)
+- An AWS Secrets Manager secret storing the Github personal access token. (optional)
 
 ```text
 {
@@ -103,13 +104,36 @@ This will generate resources prefixed with ***acme-markets-roadrunner***
   ccRepoName: string,
   branch: string,
   type: TriggerType,
-  cron: string
+  cron: string,
+  secret: string
 }
 ```
 
-Example:
+### GitHub Example
 
-The following sample will generate a pipeline called ***acme-markets-roadrunner-rocket-powered-skates-master***
+**Note** GitHub integration uses personal access tokens. See: [https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+
+In AWS Secrets Manager create a plain text secret where the value is your Github personal access token. In this example the secret is called ***github-token***
+
+![New Secret](images/new_secret_01.png "New Secret")
+
+
+This sample will generate a pipeline called ***acme-markets-roadrunner-infra-eks-main***
+
+```json
+    {
+      "pipelineName": "infra-eks",
+      "repository": "acme-infra-eks",
+      "branch": "main",
+      "type": "GitHub",
+      "owner": "srijitm",
+      "secret": "github-token"
+    }
+```
+
+### CodeCommit Example
+
+This sample will generate a pipeline called ***acme-markets-roadrunner-rocket-powered-skates-master***
 
 ```json
 {
@@ -117,7 +141,6 @@ The following sample will generate a pipeline called ***acme-markets-roadrunner-
   "ccRepoName": "rocket-powered-skates",
   "branch": "master",
   "type": "CodeCommit",
-  "cron": ""
 }
 ```
 

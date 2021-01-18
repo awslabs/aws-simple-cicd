@@ -21,14 +21,21 @@
       "branch": "master",
       "type": "CodeCommit",
       "cron": ""
+    },
+    {
+      "pipelineName": "roadrunner-trap",
+      "repository": "oadrunner-trap",
+      "branch": "master",
+      "type": "GitHub",
+      "owner": "acme",
+      "secret": "github-token"
     }
   ],
   "teamTwo": [
     {
       "pipelineName": "bird-seed", 
       "ccRepoName": "bird-seed", 
-      "branch": "master",
-      "cron": "",
+      "branch": "feature/bug-1234",
       "type": "CodeCommit"
     }
   ],

@@ -18,16 +18,17 @@
 
 
 import { Pipeline, Artifact } from '@aws-cdk/aws-codepipeline'
-import { Construct } from '@aws-cdk/core'
+import { Construct, SecretValue } from '@aws-cdk/core'
 import { IBucket } from '@aws-cdk/aws-s3'
 import {
   CodeBuildAction,
   CodeCommitSourceAction,
   ManualApprovalAction,
-  LambdaInvokeAction
+  LambdaInvokeAction,
+  GitHubSourceAction
 } from '@aws-cdk/aws-codepipeline-actions'
 import config from '../../config/config'
-import { StageName } from '../../config/config';
+import { StageName, TriggerType, ProjectRepo } from '../../config/config';
 import CodeBuildRole from '../iam/code-build-role'
 import { DeployProject } from '../projects/deploy-project'
 import { Role } from '@aws-cdk/aws-iam'
@@ -40,28 +41,24 @@ import ssm = require('@aws-cdk/aws-ssm');
 import sns = require('@aws-cdk/aws-sns');
 import targets = require('@aws-cdk/aws-events-targets');
 
-export interface CodeCommitPipelineProps {
+export interface SimpleCicdPipelineProps {
   artifactsBucket: IBucket
   prefix: string
   ssmRoot: string
-  repoName: string
-  repoBranch: string,
-  cronTrigger?: string,
+  repo: ProjectRepo
   pipelineName: string,
   modulePipelineRole: Role
   emailHandler: IFunction
   semverHandler: IFunction
 }
 
-export class CodeCommitPipeline extends Pipeline {
-  constructor(scope: Construct, id: string, props: CodeCommitPipelineProps) {
+export class SimpleCicdPipeline extends Pipeline {
+  constructor(scope: Construct, id: string, props: SimpleCicdPipelineProps) {
     const {
       artifactsBucket,
       prefix,
       ssmRoot,
-      repoName,
-      repoBranch,
-      cronTrigger,
+      repo,
       pipelineName,
       modulePipelineRole, 
       emailHandler,
@@ -76,6 +73,9 @@ export class CodeCommitPipeline extends Pipeline {
       ...rest
     })
 
+    let repoName = repo.repository
+    let repoBranch = repo.branch
+    
     // Provision SNS Topic for notifications
     const notificationTopic = new sns.Topic(this, 'Topic', {
       displayName: `${prefix}-${repoName}-${repoBranch}-cicd-topic` ,
@@ -90,28 +90,52 @@ export class CodeCommitPipeline extends Pipeline {
 
     // Source Control Stage (CodeCommit)
     const sourceOutputArtifact = new Artifact('SourceArtifact')
-    const codeCommitRepo = Repository.fromRepositoryName(
-      scope,
-      `${repoName}${repoBranch}CodeCommitRepo`,
-      repoName
-    )
+    switch (repo.type) {
+      case TriggerType.CodeCommit: {
+        const codeCommitRepo = Repository.fromRepositoryName(
+          scope,
+          `${repoName}${repoBranch}CodeCommitRepo`,
+          repoName
+        )
+    
+        codeCommitRepo.onCommit('OnCommit', {
+          target: new targets.CodePipeline(this),
+          branches: [`${repoBranch}`]
+        })
+    
+        const sourceAction = new CodeCommitSourceAction({
+          repository: codeCommitRepo,
+          branch: repoBranch,
+          output: sourceOutputArtifact,
+          actionName: 'Source'
+        })
 
-    codeCommitRepo.onCommit('OnCommit', {
-      target: new targets.CodePipeline(this),
-      branches: [`${repoBranch}`]
-    })
+        this.addStage({
+          stageName: 'Source',
+          actions: [sourceAction]
+        })
+        break
+      }
+      case TriggerType.GitHub: {
+        const oauth = SecretValue.secretsManager(repo.secret)
 
-    const sourceAction = new CodeCommitSourceAction({
-      repository: codeCommitRepo,
-      branch: repoBranch,
-      output: sourceOutputArtifact,
-      actionName: 'Source'
-    })
+        const sourceAction = new GitHubSourceAction({
+          actionName: 'Source',
+          oauthToken: oauth,
+          owner: repo.owner,
+          repo: repoName,
+          branch: repoBranch,
+          output: sourceOutputArtifact,
+        })
 
-    this.addStage({
-      stageName: 'Source',
-      actions: [sourceAction]
-    })
+        this.addStage({
+          stageName: 'Source',
+          actions: [sourceAction]
+        })
+        break
+      }
+    }
+    
     
     // Building Stage
     const buildOutputArtifact = new Artifact('BuildArtifact')
@@ -221,11 +245,11 @@ export class CodeCommitPipeline extends Pipeline {
       }
     })      
 
-    if (props.cronTrigger) {
+    if (repo.cron) {
       const cwRule = new Rule(this, `${pipelineName}-cronTrigger`, {
         ruleName: `${pipelineName}-trigger`,
         enabled: true,
-        schedule: Schedule.expression(`cron(${props.cronTrigger})`)
+        schedule: Schedule.expression(`cron(${repo.cron})`)
       })
       cwRule.addTarget(new targets.CodePipeline(this))
     }

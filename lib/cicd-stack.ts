@@ -22,10 +22,10 @@ import ssm = require('@aws-cdk/aws-ssm')
 import lambda = require('@aws-cdk/aws-lambda')
 import s3deploy = require('@aws-cdk/aws-s3-deployment')
 import { Bucket } from '@aws-cdk/aws-s3'
-import { CodeCommitPipeline } from './pipelines/codecommit-pipeline'
+import { SimpleCicdPipeline } from './pipelines/simple-cicd-pipeline'
 import PipelineRole from './iam/pipeline-role';
 
-import { ProjectRepo, TriggerType } from '../config/config';
+import { ProjectRepo } from '../config/config';
 
 interface CicdStackProps extends cdk.StackProps {
   prefix: string,
@@ -44,10 +44,12 @@ export class CicdStack extends cdk.Stack {
     const artifactsBucket = Bucket.fromBucketName(this, 'artifactsBucket', artifactsBucketName.stringValue)
 
     // Push assume-cross-account-role.env to S3
+    let ts = Date.now()
     new s3deploy.BucketDeployment(this, 'DeployAssumeRole', {
       sources: [s3deploy.Source.asset('./scripts')],
       destinationBucket: artifactsBucket,
-      destinationKeyPrefix: 'admin/cross-account'
+      destinationKeyPrefix: 'admin/cross-account',
+      metadata: { 'timestamp': ts.toString() }
     });
 
     // Get Lambda email handler function
@@ -65,27 +67,16 @@ export class CicdStack extends cdk.Stack {
       const pipelineName = `${props.prefix}-${repo.pipelineName}-${repo.branch}`.replace(/\/|_/g, '-')
       const modulePipelineRole = new PipelineRole(this, `${pipelineName}PipelineRole`)
 
-      switch (repo.type) {
-        case TriggerType.CodeCommit: {
-            const repoName = repo.ccRepoName
-            const repoBranch = repo.branch
-            const cronTrigger = repo.cron
-    
-            new CodeCommitPipeline(this, `${pipelineName}-pipeline`, {
-              artifactsBucket,
-              prefix: props.prefix,
-              ssmRoot: props.ssmRoot,
-              repoName,
-              repoBranch,
-              cronTrigger,
-              pipelineName,
-              modulePipelineRole,
-              emailHandler,
-              semverHandler
-            })
-            break;
-          }
-      }
+      new SimpleCicdPipeline(this, `${pipelineName}-pipeline`, {
+        artifactsBucket,
+        prefix: props.prefix,
+        ssmRoot: props.ssmRoot,
+        repo: repo,
+        pipelineName,
+        modulePipelineRole,
+        emailHandler,
+        semverHandler
+      })
     }
   }
 }
