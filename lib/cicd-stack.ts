@@ -44,10 +44,12 @@ export class CicdStack extends cdk.Stack {
     const artifactsBucket = Bucket.fromBucketName(this, 'artifactsBucket', artifactsBucketName.stringValue)
 
     // Push assume-cross-account-role.env to S3
+    let ts = Date.now()
     new s3deploy.BucketDeployment(this, 'DeployAssumeRole', {
       sources: [s3deploy.Source.asset('./scripts')],
       destinationBucket: artifactsBucket,
-      destinationKeyPrefix: 'admin/cross-account'
+      destinationKeyPrefix: 'admin/cross-account',
+      metadata: { 'timestamp': ts.toString() }
     });
 
     // Get Lambda email handler function
