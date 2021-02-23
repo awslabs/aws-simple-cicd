@@ -117,7 +117,7 @@ export class SimpleCicdPipeline extends Pipeline {
         break
       }
       case TriggerType.GitHub: {
-        const oauth = SecretValue.secretsManager(repo.secret)
+        const oauth = SecretValue.secretsManager(config.deployment['githubSecret'])
 
         const sourceAction = new GitHubSourceAction({
           actionName: 'Source',
@@ -201,9 +201,17 @@ export class SimpleCicdPipeline extends Pipeline {
       actions: [testAction]
     })
 
-    // Deploying Stage (One stage per target environment)
-    ;[StageName.dev, StageName.test, StageName.prod].forEach((stageName: StageName) => {
+    // Target defaults
+    // TODO: Make this user configurable
+    let targetEnvs = [StageName.dev, StageName.test, StageName.prod]
+    if (repo.targets) {
+      targetEnvs = repo.targets
+    }
 
+    // Deploying Stage (One stage per target environment)
+    targetEnvs.forEach((stageName: StageName) => {
+
+      // Only add stage if accountId is set
       if (config.accountIds[stageName]) {
         const deployRole = new CodeBuildRole(this, `${stageName}DeployRole`, { stageName })
         const deployProject = new DeployProject(

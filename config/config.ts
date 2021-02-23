@@ -29,6 +29,7 @@ export enum Regions {
 }
 
 export enum StageName {
+  cicd = 'cicd',
   dev = 'dev',
   test = 'test',
   prod = 'prod'
@@ -41,7 +42,8 @@ export type ProjectRepo = {
   type: TriggerType,
   owner?: any,
   secret?: any,
-  cron?: any
+  cron?: any,
+  targets?: any
 }
 
 export interface ProjectConfig {
@@ -53,8 +55,10 @@ export interface ProjectConfig {
   deployment: {
     region: string,
     cicdRoleName: string
+    githubSecret: string
   },
   accountIds: {
+    cicd: string,
     dev: string,
     test: string,
     prod: string
@@ -68,6 +72,7 @@ export interface ProjectConfig {
     test: string,
     prod: string
   },
+  dogFood: Array<ProjectRepo>,
   teamOne:  Array<ProjectRepo>
 }
 
