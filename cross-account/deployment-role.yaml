@@ -16,6 +16,11 @@
 # SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ###
 
+Parameters:
+  SharedAccountId:
+    Type: String
+    Description: Enter the account id of the shared account
+
 Resources:
   DeploymentRole:
     Type: AWS::IAM::Role 
@@ -40,18 +45,41 @@ Resources:
         Statement:
           - Effect: Allow
             Action:
-              - 'cloudformation:*'
+              - 'codepipeline:*'
+              - 'codebuild:*'
               - 'iam:*'
+              - 'sns:*'
+              - 'cloudformation:*'
               - 'lambda:*'
+              - 'ec2:*'
+              - 'eks:*'
               - 'ecs:*'
               - 'ecr:*'
-              - 'logs:*'
-              - 'ec2:*'
+              - 'events:*'
+              - 'cloudwatch:*'
               - 'ssm:*'
+              - 's3:*'
+              - 'states:*'
+              - 'serverlessrepo:*'
+              - 'apigateway:*'
+              - 'secretsmanager:*'
             Resource: '*'
       Roles:
         - !Ref DeploymentRole
-Parameters:
-  SharedAccountId:
-    Type: String
-    Description: Enter the account id of the shared account
+  
+  DeploymentRoleNameParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: /cicd/deployment-role-name
+      Type: String
+      Value: deployment-role
+      Description: Cross-Account CICD role name
+  
+  DeploymentRoleArnParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: /cicd/deployment-role-arn
+      Type: String
+      Value: !GetAtt DeploymentRole.Arn
+      Description: Cross-Account CICD role arn
+

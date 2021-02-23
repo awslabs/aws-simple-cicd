@@ -41,7 +41,8 @@ export type ProjectRepo = {
   type: TriggerType,
   owner?: any,
   secret?: any,
-  cron?: any
+  cron?: any,
+  targets?: any
 }
 
 export interface ProjectConfig {
@@ -53,6 +54,7 @@ export interface ProjectConfig {
   deployment: {
     region: string,
     cicdRoleName: string
+    githubSecret: string
   },
   accountIds: {
     dev: string,
@@ -68,6 +70,7 @@ export interface ProjectConfig {
     test: string,
     prod: string
   },
+  dogFood: Array<ProjectRepo>,
   teamOne:  Array<ProjectRepo>
 }
 
