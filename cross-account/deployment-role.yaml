@@ -63,6 +63,7 @@ Resources:
               - 'serverlessrepo:*'
               - 'apigateway:*'
               - 'secretsmanager:*'
+              - 'logs:*'
             Resource: '*'
       Roles:
         - !Ref DeploymentRole
