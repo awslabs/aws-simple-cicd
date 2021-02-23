@@ -7,7 +7,8 @@ These instructions are for the users who will be deploying and maintaining the p
 2. [Configure Naming](#configure-naming)
 3. [Configure Pipelines](#configure-pipelines)
 4. [Grouping Pipelines](#grouping-pipelines)
-5. [Deploying Pipelines](#deploy-pipelines)
+5. [Override Target Environments](#override-target-environments)
+6. [Deploying Pipelines](#deploy-pipelines)
 
 ## Setup Project Config
 
@@ -56,12 +57,13 @@ The IAM role name in the sample provided is ***deployment-role***.
 
 #### Step 2
 
-Set the cross-account role name in the [sample](../project-config.sample.json) file. Update ***cicdRoleName***.
+Set the cross-account role name in the [sample](../project-config.sample.json) file. Update ***cicdRoleName***. If you are using Github, set ***githubSecret*** to an AWS Secrets Manager secret storing the Github personal access token. (optional)
 
 ```bash
 "deployment": {
     "region": "ca-central-1",
-    "cicdRoleName": "deployment-role"
+    "cicdRoleName": "deployment-role",
+    "githubSecret": "github-token"
   },
 ```
 
@@ -96,7 +98,6 @@ This will generate resources prefixed with ***acme-markets-roadrunner***
 - An SNS Topic is generated for the pipeline. Subscribers receive notifications on status of each pipeline stage. Emails are sent by a Lambda function.
 - A Parameter Store parameter is generated which stores the semantic version and automatically increments (uses python semver library) on every successful build.
 - A Cron parameter can be set to trigger the pipeline on a schedule managed by CloudWatch. (optional)
-- An AWS Secrets Manager secret storing the Github personal access token. (optional)
 
 ```text
 {
@@ -105,7 +106,6 @@ This will generate resources prefixed with ***acme-markets-roadrunner***
   branch: string,
   type: TriggerType,
   cron: string,
-  secret: string
 }
 ```
 
@@ -126,8 +126,7 @@ This sample will generate a pipeline called ***acme-markets-roadrunner-infra-eks
       "repository": "acme-infra-eks",
       "branch": "main",
       "type": "GitHub",
-      "owner": "srijitm",
-      "secret": "github-token"
+      "owner": "owner",
     }
 ```
 
@@ -177,6 +176,21 @@ AWS CloudFormation has a limit of 500 resources per stack. To bypass this limita
     ```  
 
 Group your pipelines based on your needs. Grouping by teams is just provided as an example.
+
+## Overriding target environments
+
+In some situations you may want to pick and choose which target environments the pipeline should deploy to. For example when you want to build a feature branch you do not want it to deployed to production. In this situation you can set the targets array to override the default behavior where every pipeline pushes all the way to production.
+
+```json
+{
+  "pipelineName": "rocket-powered-skates",
+  "ccRepoName": "rocket-powered-skates",
+  "branch": "feature/ticket-1234",
+  "type": "Github",
+  "owner": "Owner",
+  "targets": ["dev", "test"]
+}
+```
 
 ## Deploying Pipelines
 

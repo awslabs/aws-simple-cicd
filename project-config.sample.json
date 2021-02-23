@@ -6,7 +6,8 @@
   },
   "deployment": {
     "region": "ca-central-1",
-    "cicdRoleName": "deployment-role"
+    "cicdRoleName": "deployment-role",
+    "githubSecret": "github-token"
   },
   "accountIds": {
     "cicd": "",
