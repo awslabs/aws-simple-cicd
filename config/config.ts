@@ -29,6 +29,7 @@ export enum Regions {
 }
 
 export enum StageName {
+  cicd = 'cicd',
   dev = 'dev',
   test = 'test',
   prod = 'prod'
@@ -57,6 +58,7 @@ export interface ProjectConfig {
     githubSecret: string
   },
   accountIds: {
+    cicd: string,
     dev: string,
     test: string,
     prod: string
