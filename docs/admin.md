@@ -2,13 +2,13 @@
 
 These instructions are for the users who will be deploying and maintaining the platform.
 
-0. [Setup Project Config](#setup-project-config)
-1. [Configure Accounts](#configure-accounts)
-2. [Configure Naming](#configure-naming)
-3. [Configure Pipelines](#configure-pipelines)
-4. [Grouping Pipelines](#grouping-pipelines)
-5. [Override Target Environments](#override-target-environments)
-6. [Deploying Pipelines](#deploy-pipelines)
+0. [Setup project config](#setup-project-config)
+1. [Configure accounts](#configure-accounts)
+2. [Configure naming](#configure-naming)
+3. [Configure pipelines](#configure-pipelines)
+4. [Grouping pipelines](#grouping-pipelines)
+5. [Overriding target environments](#overriding-target-environments)
+6. [Deploying pipelines](#deploying-pipelines)
 
 ## Setup Project Config
 
