@@ -14,21 +14,47 @@
     "test": "",
     "prod": ""
   },
+  "sharedResources": {
+    "cicdBucket": "cicd"
+  },
+  "defaultRegions": {
+    "cicd": "ca-central-1",
+    "dev": "ca-central-1",
+    "test": "ca-central-1",
+    "prod": "ca-central-1"
+  },
+  "dogFood": [
+    {
+      "pipelineName": "simple-cicd",
+      "repository": "aws-simple-cicd",
+      "branch": "master",
+      "type": "GitHub",
+      "owner": "awslabs",
+      "targets": ["cicd"]
+    }
+  ],
   "teamOne": [
     {
       "pipelineName": "rocket-powered-skates",
       "ccRepoName": "rocket-powered-skates",
-      "branch": "master",
+      "branch": "main",
       "type": "CodeCommit",
       "cron": ""
     },
     {
       "pipelineName": "roadrunner-trap",
-      "repository": "oadrunner-trap",
-      "branch": "master",
+      "repository": "roadrunner-trap",
+      "branch": "main",
+      "type": "GitHub",
+      "owner": "acme"
+    },
+    {
+      "pipelineName": "roadrunner-trap",
+      "repository": "roadrunner-trap",
+      "branch": "feature/ticket-1234",
       "type": "GitHub",
       "owner": "acme",
-      "secret": "github-token"
+      "targets": ["dev", "test"]
     }
   ],
   "teamTwo": [
@@ -38,14 +64,5 @@
       "branch": "feature/bug-1234",
       "type": "CodeCommit"
     }
-  ],
-  "sharedResources": {
-    "cicdBucket": "cicd"
-  },
-  "defaultRegions": {
-    "cicd": "ca-central-1",
-    "dev": "ca-central-1",
-    "test": "ca-central-1",
-    "prod": "ca-central-1"
-  }
+  ]
 }
