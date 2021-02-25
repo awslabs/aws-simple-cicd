@@ -24,7 +24,7 @@
     "test": "ca-central-1",
     "prod": "ca-central-1"
   },
-  "dogFood": [
+  "simpleCicd": [
     {
       "pipelineName": "simple-cicd",
       "repository": "aws-simple-cicd",

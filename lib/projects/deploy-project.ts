@@ -42,6 +42,9 @@ export class DeployProject extends PipelineProject {
       environmentVariables: projectEnvironmentVars({ stageName, repoName, bucketName, bucketArn }),
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
+        env: {
+          shell: 'bash'
+        },
         phases: {
           install: {
             'runtime-versions': {

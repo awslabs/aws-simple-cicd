@@ -72,7 +72,7 @@ export interface ProjectConfig {
     test: string,
     prod: string
   },
-  dogFood: Array<ProjectRepo>,
+  simpleCicd: Array<ProjectRepo>,
   teamOne:  Array<ProjectRepo>
 }
 
