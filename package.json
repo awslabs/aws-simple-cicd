@@ -35,6 +35,8 @@
   "dependencies": {
     "@aws-cdk/aws-s3-deployment": "^1.80.0",
     "@aws-cdk/aws-ssm": "^1.80.0",
+    "build": "^0.1.4",
+    "run": "^1.4.0",
     "source-map-support": "^0.5.19"
   }
 }

@@ -62,5 +62,3 @@ _GIT_REPO/
 *.js
 *.d.ts
 
-# Simple-CICD specific files
-project-config.json

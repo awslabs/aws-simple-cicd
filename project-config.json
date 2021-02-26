@@ -1,0 +1,46 @@
+{
+  "naming": {
+    "company": "vf",
+    "dept": "sre",
+    "project":  "iac"
+  },
+  "deployment": {
+    "region": "us-east-1",
+    "cicdRoleName": "operations",
+    "githubSecret": "github-token"
+  },
+  "accountIds": {
+    "cicd": "218894879100",
+    "dev": "218894879100",
+    "test": "",
+    "prod": ""
+  },
+  "sharedResources": {
+    "cicdBucket": "cicd"
+  },
+  "defaultRegions": {
+    "cicd": "us-east-1",
+    "dev": "us-east-1",
+    "test": "us-east-1",
+    "prod": "us-east-1"
+  },
+  "simpleCicd": [
+    {
+      "pipelineName": "simple-cicd",
+      "repository": "aws-simple-cicd",
+      "branch": "master",
+      "type": "GitHub",
+      "owner": "skashmeri",
+      "targets": ["cicd"]
+    }
+  ],
+  "teamOne": [
+    {
+      "pipelineName": "nexus_assets",
+      "repository": "nexus_assets",
+      "branch": "main",
+      "type": "GitHub",
+      "owner": "skashmeri"
+    }
+  ]
+}
