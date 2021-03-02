@@ -28,7 +28,7 @@
     {
       "pipelineName": "simple-cicd",
       "repository": "aws-simple-cicd",
-      "branch": "master",
+      "branch": "main",
       "type": "GitHub",
       "owner": "awslabs",
       "targets": ["cicd"]
