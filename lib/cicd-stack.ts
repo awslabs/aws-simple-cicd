@@ -67,7 +67,7 @@ export class CicdStack extends cdk.Stack {
       const pipelineName = `${props.prefix}-${repo.pipelineName}-${repo.branch}`.replace(/\/|_/g, '-')
       const modulePipelineRole = new PipelineRole(this, `${pipelineName}PipelineRole`)
 
-      new SimpleCicdPipeline(this, `${pipelineName}-pipeline`, {
+      new SimpleCicdPipeline(this, `${pipelineName}`, {
         artifactsBucket,
         prefix: props.prefix,
         ssmRoot: props.ssmRoot,

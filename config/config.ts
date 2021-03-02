@@ -72,7 +72,7 @@ export interface ProjectConfig {
     test: string,
     prod: string
   },
-  simpleCicd: Array<ProjectRepo>,
+  seedPipeline: Array<ProjectRepo>,
   teamOne:  Array<ProjectRepo>
 }
 

@@ -28,6 +28,7 @@ export interface BuildProjectProps extends ProjectProps {
   bucketName: string
   bucketArn: string
   role: Role
+  semverParameter: string
 }
 
 export class TestProject extends PipelineProject {
@@ -41,7 +42,10 @@ export class TestProject extends PipelineProject {
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
         env: {
-          shell: 'bash'
+          shell: 'bash',
+          'parameter-store': {
+              SEMVER: props.semverParameter
+          }
         },
         phases: {
           install: {

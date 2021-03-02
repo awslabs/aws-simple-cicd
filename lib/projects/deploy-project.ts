@@ -30,6 +30,7 @@ export interface DeployProjectProps {
   bucketName: string
   bucketArn: string
   role: Role
+  semverParameter: string
 }
 
 export class DeployProject extends PipelineProject {
@@ -43,7 +44,10 @@ export class DeployProject extends PipelineProject {
       buildSpec: BuildSpec.fromObject({
         version: '0.2',
         env: {
-          shell: 'bash'
+          shell: 'bash',
+          'parameter-store': {
+            SEMVER: props.semverParameter
+          }
         },
         phases: {
           install: {
