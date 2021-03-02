@@ -24,7 +24,7 @@
     "test": "ca-central-1",
     "prod": "ca-central-1"
   },
-  "simpleCicd": [
+  "seedPipeline": [
     {
       "pipelineName": "simple-cicd",
       "repository": "aws-simple-cicd",

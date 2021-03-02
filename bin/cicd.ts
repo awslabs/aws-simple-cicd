@@ -32,9 +32,9 @@ let cicdRoleName = config.deployment['cicdRoleName']
 
 const app = new cdk.App()
 
-new S3Stack(app, 'AWS-Simple-CICD-S3', { prefix, ssmRoot })
-new EmailHandlerStack(app, 'AWS-Simple-CICD-EmailHandler', { prefix, ssmRoot })
-new SemverHandlerStack(app, 'AWS-Simple-CICD-SemverHandler', { prefix, ssmRoot })
-new CicdStack(app, 'AWS-Simple-CICD', { prefix, ssmRoot, cicdRoleName, repos: config.simpleCicd})
+new S3Stack(app, 'AWS-Simple-CICD-01-S3', { prefix, ssmRoot })
+new EmailHandlerStack(app, 'AWS-Simple-CICD-02-EmailHandler', { prefix, ssmRoot })
+new SemverHandlerStack(app, 'AWS-Simple-CICD-03-SemverHandler', { prefix, ssmRoot })
+new CicdStack(app, 'AWS-Simple-CICD-04-SeedPipeline', { prefix, ssmRoot, cicdRoleName, repos: config.seedPipeline})
 new CicdStack(app, 'AWS-Simple-CICD-TeamOne', { prefix, ssmRoot, cicdRoleName, repos: config.teamOne})
 //new CicdStack(app, 'TeamTWo-CICD', { prefix, ssmRoot, repos: config.teamTwo})

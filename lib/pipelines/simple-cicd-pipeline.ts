@@ -78,8 +78,8 @@ export class SimpleCicdPipeline extends Pipeline {
     
     // Provision SNS Topic for notifications
     const notificationTopic = new sns.Topic(this, 'Topic', {
-      displayName: `${prefix}-${repoName}-${repoBranch}-cicd-topic` ,
-      topicName: `${prefix}-${repoName}-${repoBranch}-cicd-topic`
+      displayName: `${pipelineName}-cicd-topic` ,
+      topicName: `${pipelineName}-cicd-topic`
     })
 
     new ssm.StringParameter(this, 'SnsTopicArn', {
@@ -141,14 +141,14 @@ export class SimpleCicdPipeline extends Pipeline {
     const buildOutputArtifact = new Artifact('BuildArtifact')
     const buildRole = new CodeBuildRole(this, 'buildRole')
 
-    const buildProject = new BuildProject(this, `${prefix}-${repoName}-${repoBranch}-build`, {
+    const buildProject = new BuildProject(this, `${pipelineName}-build`, {
         repoName: repoName,
         role: buildRole,
         bucketArn: artifactsBucket.bucketArn,
         bucketName: artifactsBucket.bucketName
     })
 
-    buildProject.onStateChange('buildStatus', {
+    buildProject.onStateChange('build', {
       target: new targets.LambdaFunction(emailHandler)
     })
 
@@ -174,18 +174,27 @@ export class SimpleCicdPipeline extends Pipeline {
       actions: [buildAction, semverAction]
     })
 
+    // Push SemVer to Parameter Store
+    let semverParam = `${ssmRoot}/simple-cicd/${repoName}/${repoBranch}/version`
+    new ssm.StringParameter(this, `${repoName}${repoBranch}Version`, {
+      description: `Version number of ${repoName}/${repoBranch}`,
+      parameterName: semverParam,
+      stringValue: '0.1.0'
+    })
+
     // Testing Stage
     const testOutputArtifact = new Artifact('TestArtifact')
     const testRole = new CodeBuildRole(this, 'testRole')
 
-    const testProject = new TestProject(this, `${prefix}-${repoName}-${repoBranch}-test`, {
+    const testProject = new TestProject(this, `${pipelineName}-test`, {
         repoName: repoName,
         role: testRole,
         bucketArn: artifactsBucket.bucketArn,
-        bucketName: artifactsBucket.bucketName
+        bucketName: artifactsBucket.bucketName,
+        semverParameter: semverParam
     })
 
-    testProject.onStateChange('testStatus', {
+    testProject.onStateChange('test', {
       target: new targets.LambdaFunction(emailHandler)
     })
 
@@ -216,16 +225,17 @@ export class SimpleCicdPipeline extends Pipeline {
         const deployRole = new CodeBuildRole(this, `${stageName}DeployRole`, { stageName })
         const deployProject = new DeployProject(
           this,
-          `${prefix}-${repoName}-${repoBranch}-${stageName}-deploy`,
+          `${pipelineName}-${stageName}-deploy`,
           {
             repoName: repoName,
             stageName: stageName,
             role: deployRole,
             bucketArn: artifactsBucket.bucketArn,
-            bucketName: artifactsBucket.bucketName
+            bucketName: artifactsBucket.bucketName,
+            semverParameter: semverParam
           }
         )
-        deployProject.onStateChange('deploymentStatus', {
+        deployProject.onStateChange('deploy', {
           target: new targets.LambdaFunction(emailHandler)
         })
 
@@ -262,10 +272,5 @@ export class SimpleCicdPipeline extends Pipeline {
       cwRule.addTarget(new targets.CodePipeline(this))
     }
 
-    new ssm.StringParameter(this, `${repoName}${repoBranch}Version`, {
-      description: `Version number of ${repoName}/${repoBranch}`,
-      parameterName: `${ssmRoot}/codecommit/${repoName}/${repoBranch}/version`,
-      stringValue: '0.1.0'
-    })
   }
 }
