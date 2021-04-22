@@ -7,34 +7,28 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "cdk": "cdk",
-    "deploy": "npm run build && npm run cdk -- deploy",
-    "synth": "npm run build && npm run cdk -- synth AWS-Simple-CICD-TeamOne"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm run synth"
-    }
+    "test": "jest",
+    "cdk": "cdk"
   },
   "devDependencies": {
-    "@aws-cdk/aws-codebuild": "^1.80.0",
-    "@aws-cdk/aws-codepipeline": "^1.80.0",
-    "@aws-cdk/aws-codepipeline-actions": "^1.80.0",
-    "@aws-cdk/aws-iam": "^1.80.0",
-    "@aws-cdk/aws-lambda": "^1.80.0",
-    "@aws-cdk/aws-s3": "^1.80.0",
-    "@aws-cdk/aws-sam": "^1.80.0",
-    "@aws-cdk/core": "^1.80.0",
-    "@types/node": "^14.14.16",
-    "aws-cdk": "^1.80.0",
-    "aws-sdk": "^2.818.0",
-    "husky": "^4.3.6",
+    "@aws-cdk/aws-codebuild": "^1.100.0",
+    "@aws-cdk/aws-codepipeline": "^1.100.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.100.0",
+    "@aws-cdk/aws-iam": "^1.100.0",
+    "@aws-cdk/aws-lambda": "^1.100.0",
+    "@aws-cdk/aws-s3": "^1.100.0",
+    "@aws-cdk/aws-sam": "^1.100.0",
+    "@aws-cdk/core": "^1.100.0",
+    "@types/node": "^14.14.41",
+    "aws-cdk": "^1.100.0",
+    "aws-sdk": "^2.890.0",
+    "husky": "^6.0.0",
     "tsort": "0.0.1",
-    "typescript": "^4.1.3"
+    "typescript": "^4.2.4"
   },
   "dependencies": {
-    "@aws-cdk/aws-s3-deployment": "^1.80.0",
-    "@aws-cdk/aws-ssm": "^1.80.0",
+    "@aws-cdk/aws-s3-deployment": "^1.100.0",
+    "@aws-cdk/aws-ssm": "^1.100.0",
     "source-map-support": "^0.5.19"
   }
 }
