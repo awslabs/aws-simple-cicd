@@ -31,7 +31,7 @@ interface EmailHandlerStackProps extends cdk.StackProps {
 }
 
 export class EmailHandlerStack extends cdk.Stack {
-  constructor(scope:  Construct, id: string, props: EmailHandlerStackProps) {
+  constructor(scope: Construct, id: string, props: EmailHandlerStackProps) {
     super(scope, id, props);
 
     // Provision Lambda
