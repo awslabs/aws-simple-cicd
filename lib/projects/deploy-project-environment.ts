@@ -20,7 +20,7 @@
 import config from '../../config/config'
 import { StageName } from '../../config/config';
 import { BuildEnvironmentVariableType, ComputeType, 
-  LinuxBuildImage  } from '@aws-cdk/aws-codebuild'
+  LinuxBuildImage  } from 'aws-cdk-lib/aws-codebuild'
 
 export const defaultEnvironment = {
   buildImage: LinuxBuildImage.STANDARD_4_0,

@@ -17,11 +17,11 @@
  */
 
 
-import { Construct } from '@aws-cdk/core'
-import { PipelineProject, ProjectProps, BuildSpec} from '@aws-cdk/aws-codebuild'
+import { Construct } from 'constructs';
+import { PipelineProject, ProjectProps, BuildSpec} from 'aws-cdk-lib/aws-codebuild'
 import { defaultEnvironment } from './build-project-environment'
 import { projectEnvironmentVars } from './build-project-environment'
-import { Role } from '@aws-cdk/aws-iam'
+import { Role } from 'aws-cdk-lib/aws-iam'
 
 export interface BuildProjectProps extends ProjectProps {
   repoName: string

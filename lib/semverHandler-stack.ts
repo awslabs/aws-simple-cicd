@@ -16,13 +16,13 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
-import cdk = require('@aws-cdk/core');
-import ssm = require('@aws-cdk/aws-ssm');
-import iam = require("@aws-cdk/aws-iam");
-import lambda = require('@aws-cdk/aws-lambda');
-import logs = require('@aws-cdk/aws-logs')
-import { ServicePrincipal } from '@aws-cdk/aws-iam';
+import * as cdk from 'aws-cdk-lib'
+import * as ssm from 'aws-cdk-lib/aws-ssm'
+import * as lambda from 'aws-cdk-lib/aws-lambda'
+import * as iam from 'aws-cdk-lib/aws-iam'
+import * as logs from 'aws-cdk-lib/aws-logs'
+import { ServicePrincipal } from 'aws-cdk-lib/aws-iam'
+import { Construct } from 'constructs'
 
 interface SemverHandlerStackProps extends cdk.StackProps {
   prefix: string
@@ -30,7 +30,7 @@ interface SemverHandlerStackProps extends cdk.StackProps {
 }
 
 export class SemverHandlerStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: SemverHandlerStackProps) {
+  constructor(scope: Construct, id: string, props: SemverHandlerStackProps) {
     super(scope, id, props);
 
     // Provision Lambda Layer
@@ -43,7 +43,7 @@ export class SemverHandlerStack extends cdk.Stack {
 
     // Provision Lambda
     const semverHandler = new lambda.Function(this, 'semverHandler', {
-      code: lambda.Code.asset('./lambda-helpers/semver-handler'),
+      code: lambda.Code.fromAsset('./lambda-helpers/semver-handler'),
       functionName: `${props.prefix}-cicd-semverHandler`,
       handler: 'lambda.semver_handler',
       runtime: lambda.Runtime.PYTHON_3_8,

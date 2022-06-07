@@ -17,29 +17,30 @@
  */
 
 
- import { Pipeline, Artifact } from '@aws-cdk/aws-codepipeline'
- import { Construct, SecretValue } from '@aws-cdk/core'
- import { IBucket } from '@aws-cdk/aws-s3'
+ import { Pipeline, Artifact } from 'aws-cdk-lib/aws-codepipeline'
+ import { SecretValue } from 'aws-cdk-lib'
+ import { Construct } from 'constructs'
+ import { IBucket } from 'aws-cdk-lib/aws-s3'
  import {
    CodeBuildAction,
    CodeCommitSourceAction,
    ManualApprovalAction,
    LambdaInvokeAction,
    GitHubSourceAction
- } from '@aws-cdk/aws-codepipeline-actions'
+ } from 'aws-cdk-lib/aws-codepipeline-actions'
  import config from '../../config/config'
  import { StageName, TriggerType, ProjectRepo } from '../../config/config';
  import CodeBuildRole from '../iam/code-build-role'
  import { DeployProject } from '../projects/deploy-project'
- import { Role } from '@aws-cdk/aws-iam'
- import { IFunction } from '@aws-cdk/aws-lambda'
- import { Repository } from '@aws-cdk/aws-codecommit'
+ import { Role } from 'aws-cdk-lib/aws-iam'
+ import { IFunction } from 'aws-cdk-lib/aws-lambda'
+ import { Repository } from 'aws-cdk-lib/aws-codecommit'
  import { BuildProject } from '../projects/build-project'
  import { TestProject } from '../projects/test-project'
- import { Rule, Schedule } from '@aws-cdk/aws-events'
- import ssm = require('@aws-cdk/aws-ssm');
- import sns = require('@aws-cdk/aws-sns');
- import targets = require('@aws-cdk/aws-events-targets');
+ import { Rule, Schedule } from 'aws-cdk-lib/aws-events'
+ import * as ssm from 'aws-cdk-lib/aws-ssm';
+ import * as sns from 'aws-cdk-lib/aws-sns';
+ import * as targets from 'aws-cdk-lib/aws-events-targets';
  
  export interface SimpleCicdPipelineProps {
    artifactsBucket: IBucket

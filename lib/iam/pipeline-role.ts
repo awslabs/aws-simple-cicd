@@ -1,5 +1,5 @@
-import iam = require('@aws-cdk/aws-iam')
-import { Construct } from '@aws-cdk/core'
+import * as iam from 'aws-cdk-lib/aws-iam'
+import { Construct } from 'constructs'
 
 export interface PipelineRoleProps {}
 

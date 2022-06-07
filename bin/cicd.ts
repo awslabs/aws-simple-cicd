@@ -18,7 +18,7 @@
 
 
 import 'source-map-support/register'
-import cdk = require('@aws-cdk/core')
+import * as cdk from 'aws-cdk-lib'
 import { CicdStack } from '../lib/cicd-stack'
 import { S3Stack } from '../lib/cicd-s3-stack'
 import { EmailHandlerStack } from '../lib/emailHandler-stack'
@@ -37,4 +37,4 @@ new EmailHandlerStack(app, 'AWS-Simple-CICD-02-EmailHandler', { prefix, ssmRoot 
 new SemverHandlerStack(app, 'AWS-Simple-CICD-03-SemverHandler', { prefix, ssmRoot })
 new CicdStack(app, 'AWS-Simple-CICD-04-SeedPipeline', { prefix, ssmRoot, cicdRoleName, repos: config.seedPipeline})
 new CicdStack(app, 'AWS-Simple-CICD-TeamOne', { prefix, ssmRoot, cicdRoleName, repos: config.teamOne})
-//new CicdStack(app, 'TeamTWo-CICD', { prefix, ssmRoot, repos: config.teamTwo})
+new CicdStack(app, 'TeamTWo-CICD', { prefix, ssmRoot, repos: config.teamTwo})
