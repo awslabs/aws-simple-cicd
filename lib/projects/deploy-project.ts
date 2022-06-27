@@ -17,11 +17,11 @@
  */
 
 
-import { PipelineProject, BuildSpec } from '@aws-cdk/aws-codebuild'
-import { Construct } from '@aws-cdk/core'
+import { PipelineProject, BuildSpec } from 'aws-cdk-lib/aws-codebuild'
+import { Construct } from 'constructs';
 import { defaultEnvironment } from './deploy-project-environment'
 import { projectEnvironmentVars } from './deploy-project-environment'
-import { Role } from '@aws-cdk/aws-iam'
+import { Role } from 'aws-cdk-lib/aws-iam'
 import { StageName } from '../../config/config';
 
 export interface DeployProjectProps {

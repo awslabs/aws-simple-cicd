@@ -17,12 +17,13 @@
  */
 
 
-import cdk = require('@aws-cdk/core');
-import ssm = require('@aws-cdk/aws-ssm');
-import lambda = require('@aws-cdk/aws-lambda');
-import iam = require('@aws-cdk/aws-iam');
-import logs = require('@aws-cdk/aws-logs')
-import { ServicePrincipal } from '@aws-cdk/aws-iam';
+import * as cdk from 'aws-cdk-lib'
+import * as ssm from 'aws-cdk-lib/aws-ssm'
+import * as lambda from 'aws-cdk-lib/aws-lambda'
+import * as iam from 'aws-cdk-lib/aws-iam'
+import * as logs from 'aws-cdk-lib/aws-logs'
+import { ServicePrincipal } from 'aws-cdk-lib/aws-iam'
+import { Construct } from 'constructs'
 
 interface EmailHandlerStackProps extends cdk.StackProps {
   prefix: string
@@ -30,12 +31,12 @@ interface EmailHandlerStackProps extends cdk.StackProps {
 }
 
 export class EmailHandlerStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: EmailHandlerStackProps) {
+  constructor(scope: Construct, id: string, props: EmailHandlerStackProps) {
     super(scope, id, props);
 
     // Provision Lambda
     const emailHandler = new lambda.Function(this, 'emailHandler', {
-      code: lambda.Code.asset('./lambda-helpers/email-handler'),
+      code: lambda.Code.fromAsset('./lambda-helpers/email-handler'),
       functionName: `${props.prefix}-cicd-emailHandler`,
       handler: 'lambda.send_codebuild_events_to_sns',
       runtime: lambda.Runtime.PYTHON_3_8,

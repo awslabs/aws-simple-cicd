@@ -18,7 +18,7 @@
 
 
 import 'source-map-support/register'
-import cdk = require('@aws-cdk/core')
+import * as cdk from 'aws-cdk-lib'
 import { CicdStack } from '../lib/cicd-stack'
 import { S3Stack } from '../lib/cicd-s3-stack'
 import { EmailHandlerStack } from '../lib/emailHandler-stack'
