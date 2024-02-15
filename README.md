@@ -1,3 +1,8 @@
+# NOTICE
+[CodePipeline now natively supports Branches, PRs and Monorepos.](https://aws.amazon.com/blogs/devops/aws-codepipeline-adds-support-for-branch-based-development-and-monorepos/) This repository will no longer be maintained and we recommend you leverage the native functionality!
+
+---
+
 # AWS-Simple-CICD Project
 
 This project provides a serverless CI/CD platform leveraging native AWS services provisioned using the AWS Cloud Development Kit (CDK). As per the AWS Well Architected Framework, this project assumes the use of multiple AWS accounts for secure isolation of environments.
